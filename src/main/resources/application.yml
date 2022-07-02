@@ -1,0 +1,15 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: informe
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver # mysql 8버전
+    url: jdbc:mysql://informe.csmtzvyurww1.us-east-1.rds.amazonaws.com:3306/informe
+    username: admin
+    password: informe65
+
+  jpa:
+    open-in-view: false

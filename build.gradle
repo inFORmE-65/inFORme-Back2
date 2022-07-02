@@ -1,0 +1,61 @@
+plugins {
+    id 'org.springframework.boot' version '2.7.1'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'java'
+}
+
+group = 'com.informe'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '17'
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.jetbrains:annotations:23.0.0'
+
+    //spring boot starter
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+    //json-simple
+    implementation 'com.googlecode.json-simple:json-simple:1.1.1'
+
+    //mysql
+    runtimeOnly 'mysql:mysql-connector-java'
+
+    //jdbc
+    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    compileOnly 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+    //web
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter'
+    compileOnly 'org.springframework.boot:spring-boot-starter-web'
+
+    //lombok
+    compileOnly 'org.projectlombok:lombok'
+
+    //application.properties
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+
+    //lombok
+    annotationProcessor 'org.projectlombok:lombok'
+
+    //authentication
+    compileOnly 'io.jsonwebtoken:jjwt:0.9.1'
+
+    //security
+    //implementation 'org.springframework.boot:spring-boot-starter-security'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
