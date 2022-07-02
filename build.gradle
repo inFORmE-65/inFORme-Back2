@@ -24,16 +24,12 @@ dependencies {
     //spring boot starter
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
-    //json-simple
-    implementation 'com.googlecode.json-simple:json-simple:1.1.1'
-
     //mysql
     runtimeOnly 'mysql:mysql-connector-java'
 
     //jdbc
     implementation 'org.springframework.boot:spring-boot-starter-jdbc'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    compileOnly 'org.springframework.boot:spring-boot-starter-data-jpa'
 
     //web
     implementation 'org.springframework.boot:spring-boot-starter-web'
@@ -54,6 +50,9 @@ dependencies {
 
     //security
     //implementation 'org.springframework.boot:spring-boot-starter-security'
+
+    //json-simple
+    implementation 'com.googlecode.json-simple:json-simple:1.1.1'
 }
 
 tasks.named('test') {

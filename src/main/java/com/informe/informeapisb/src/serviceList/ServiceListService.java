@@ -12,7 +12,7 @@ import static com.informe.informeapisb.config.BaseResponseStatus.*;
 import static com.informe.informeapisb.utils.ValidationRegex.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import java.util.List;
 import static com.informe.informeapisb.config.BaseResponseStatus.*;
 
 @Service
@@ -28,5 +28,17 @@ public class ServiceListService {
         this.serviceListDao = serviceListDao;
         this.serviceListProvider = serviceListProvider;
         this.jwtService = jwtService;
+    }
+
+    //ServiceList 삽입
+    public void createServiceList(int size,List<data> data) throws BaseException {
+        try {
+            for(int i=0;i<size;i++){
+                serviceListDao.insertServiceList(data.get(i));
+            }
+        }catch(Exception exception){
+            throw new BaseException(DATABASE_ERROR);
+        }
+
     }
 }
