@@ -13,6 +13,8 @@ import static com.informe.informeapisb.utils.ValidationRegex.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 import static com.informe.informeapisb.config.BaseResponseStatus.*;
 
 @Service
@@ -28,5 +30,16 @@ public class SupportConditionsService {
         this.supportConditionsDao = supportConditionsDao;
         this.supportConditionsProvider = supportConditionsProvider;
         this.jwtService = jwtService;
+    }
+
+    //SupportDetail 삽입
+    public void createSupportConditions(int size, List<data> data) throws BaseException {
+        try {
+            for (int i = 0; i < size; i++) {
+                supportConditionsDao.insertSupportConditions(data.get(i));
+            }
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
     }
 }

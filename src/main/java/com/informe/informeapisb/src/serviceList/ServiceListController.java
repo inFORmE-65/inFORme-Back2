@@ -79,6 +79,5 @@ public class ServiceListController {
         }catch(BaseException exception){
             return new BaseResponse<>((exception.getStatus()));
         }
-
     }
 }

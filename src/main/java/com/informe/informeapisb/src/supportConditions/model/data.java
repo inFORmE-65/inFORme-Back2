@@ -1,5 +1,12 @@
 package com.informe.informeapisb.src.supportConditions.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+@AllArgsConstructor
 public class data {
     //SVC_ID string: 공공서비스 고유 식별자
     private String SVC_ID;
@@ -113,7 +120,7 @@ public class data {
     private String JA0320;
 
     //JA0322 string: 해당사항없음
-    private String JA03022;
+    private String JA0322;
 
     //JA0323 string: 질병/부상/질환자
     private String JA0323;
