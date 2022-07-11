@@ -38,7 +38,7 @@ public class ServiceDetailController {
 
     //Get 전체 정책 데이터 공공데이터 api 이용
     @ResponseBody
-    @GetMapping("/json/{page}/{perPage}")
+    @GetMapping("/api/{page}/{perPage}")
     public String callApi(@PathVariable("page")int page, @PathVariable("perPage")int perPage) throws IOException {
         StringBuilder result = new StringBuilder();
 

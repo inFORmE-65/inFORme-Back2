@@ -27,4 +27,14 @@ public class ServiceListProvider {
         this.serviceListDao = serviceListDao;
         this.jwtService = jwtService;
     }
+
+    public GetServiceListRes getServiceList(int page, int perPage) throws BaseException{
+        try{
+            GetServiceListRes getServiceListRes = serviceListDao.getServiceList(page, perPage);
+            return getServiceListRes;
+        }
+        catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
 }

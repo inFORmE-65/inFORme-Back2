@@ -40,7 +40,7 @@ public class ServiceListController {
 
     //Get 전체 정책 데이터 공공데이터 api 이용
     @ResponseBody
-    @GetMapping("/json/{page}/{perPage}")
+    @GetMapping("/api/{page}/{perPage}")
     public String callApi(@PathVariable("page")int page,@PathVariable("perPage")int perPage) throws IOException {
         StringBuilder result = new StringBuilder();
 
@@ -62,6 +62,18 @@ public class ServiceListController {
         urlConnection.disconnect();
 
         return result.toString();
+    }
+
+    //Get db 이용 ServiceList 이용
+    @ResponseBody
+    @GetMapping("/db/{page}/{perPage}")
+    public BaseResponse<GetServiceListRes> getServiceList(@PathVariable("page")int page,@PathVariable("perPage")int perPage){
+        try {
+            GetServiceListRes getServiceListRes = serviceListProvider.getServiceList(page, perPage);
+            return new BaseResponse<>(getServiceListRes);
+        }catch (BaseException exception){
+            return new BaseResponse<>(exception.getStatus());
+        }
     }
 
     //Post json 데이터 ServiceList DB 삽입

@@ -38,7 +38,7 @@ public class SupportConditionsController {
     }
 
     @ResponseBody
-    @GetMapping("/json/{page}/{perPage}")
+    @GetMapping("/api/{page}/{perPage}")
     public String callApi(@PathVariable("page")int page, @PathVariable("perPage")int perPage) throws IOException {
         StringBuilder result = new StringBuilder();
 
