@@ -6,6 +6,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
+import java.sql.ResultSet;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -30,35 +31,35 @@ public class ServiceListDao {
 
 
     public GetServiceListRes getServiceList(int page, int perPage) {
-        String GetServiceListQuery = "select count(*) as totalCount, currentCount from serviceList left join (select SVC_ID, count(*) as currentCount from serviceList "+ "limit " + perPage +" offset "+ (page-1)*perPage + ")";
-        String GetDataQuery = "select SVC_ID, SupportType, ServiceName, ServicePurpose, ServiceTarget, TartgetCriteria, ServiceContent, ServiceHowApply, ServiceApplyDue, ServiceUrl, ServiceAgencyCode, ServiceAgencyName, ServiceAgencyPartName, ServiceViewCount from serviceList "+ "limit " + perPage +" offset "+ (page-1)*perPage;
-        System.out.println(GetServiceListQuery);
-        System.out.println(GetDataQuery);
+        String GetServiceListQuery = "select count(*) as totalCount, count(*) as matchCount from serviceList";
+        String GetDataQuery = "select * from serviceList "+ "limit " + perPage +" offset "+ (page-1)*perPage;
+
+        List<data> data = this.jdbcTemplate.query(GetDataQuery,
+                (rk, rowNum2) -> new data(
+                        rk.getString("SVC_ID"),
+                        rk.getString("SupportType"),
+                        rk.getString("ServiceName"),
+                        rk.getString("ServicePurpose"),
+                        rk.getString("ServiceTarget"),
+                        rk.getString("TartgetCriteria"),
+                        rk.getString("ServiceContent"),
+                        rk.getString("ServiceHowApply"),
+                        rk.getString("ServiceApplyDue"),
+                        rk.getString("ServiceUrl"),
+                        rk.getString("ServiceAgencyCode"),
+                        rk.getString("ServiceAgencyName"),
+                        rk.getString("ServiceAgencyPartName"),
+                        rk.getInt("ServiceViewCount")
+                ));
+
         return this.jdbcTemplate.queryForObject(GetServiceListQuery,
                 (rs, rowNum1) -> new GetServiceListRes(
                         page,
                         perPage,
                         rs.getInt("totalCount"),
-                        rs.getInt("currentCount"),
-                        rs.getInt("currentCount"),
-                        data = this.jdbcTemplate.query(GetDataQuery,
-                                (rk, rowNum2) -> new data(
-                                        rk.getString("SVC_ID"),
-                                        rk.getString("SupportType"),
-                                        rk.getString("ServiceName"),
-                                        rk.getString("ServicePurpose"),
-                                        rk.getString("ServiceTarget"),
-                                        rk.getString("TartgetCriteria"),
-                                        rk.getString("ServiceContent"),
-                                        rk.getString("ServiceHowApply"),
-                                        rk.getString("ServiceApplyDue"),
-                                        rk.getString("ServiceUrl"),
-                                        rk.getString("ServiceAgencyCode"),
-                                        rk.getString("ServiceAgencyName"),
-                                        rk.getString("ServiceAgencyPartName"),
-                                        rk.getInt("ServiceViewCount")
-                                )
-                        )
+                        data.size(),
+                        rs.getInt("matchCount"),
+                        data
                 ));
     }
 }
