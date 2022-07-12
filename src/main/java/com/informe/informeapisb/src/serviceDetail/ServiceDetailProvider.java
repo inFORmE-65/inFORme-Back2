@@ -27,4 +27,14 @@ public class ServiceDetailProvider {
         this.serviceDetailDao = serviceDetailDao;
         this.jwtService = jwtService;
     }
+
+    public GetServiceDetailBySVCIDRes getServiceDetailBySVCID(String SVC_ID) throws BaseException{
+        try{
+            GetServiceDetailBySVCIDRes getServiceDetailRes = serviceDetailDao.getServiceDetailBySVCID(SVC_ID);
+            return getServiceDetailRes;
+        }
+        catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
 }
