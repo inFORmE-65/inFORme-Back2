@@ -79,15 +79,25 @@ public class ServiceDetailController {
         }
     }
 
-    //Get DB 이용 ServiceDetail
+    //Get DB 이용 ServiceDetail by SVC_ID
     @ResponseBody
-    @GetMapping("/{SVC_ID}")
+    @GetMapping("/SVC_ID/{SVC_ID}")
     public BaseResponse<GetServiceDetailBySVCIDRes> getServiceDetailBySVCID(@PathVariable("SVC_ID")String SVC_ID){
         try {
-            System.out.println(SVC_ID);
-            System.out.println(SVC_ID.getClass());
             GetServiceDetailBySVCIDRes getServiceDetailRes = serviceDetailProvider.getServiceDetailBySVCID(SVC_ID);
             return new BaseResponse<>(getServiceDetailRes);
+        }catch (BaseException exception){
+            return new BaseResponse<>(exception.getStatus());
+        }
+    }
+
+    //Get DB 이용 SVC_ID by ServiceName
+    @ResponseBody
+    @GetMapping("/SVC_NAME/{ServiceName}")
+    public BaseResponse<GetSVCIDByServiceNameRes> getSVCIDByServiceName(@PathVariable("ServiceName")String ServiceName){
+        try {
+            GetSVCIDByServiceNameRes getSVC_IDRes = serviceDetailProvider.getSVCIDByServiceName(ServiceName);
+            return new BaseResponse<>(getSVC_IDRes);
         }catch (BaseException exception){
             return new BaseResponse<>(exception.getStatus());
         }

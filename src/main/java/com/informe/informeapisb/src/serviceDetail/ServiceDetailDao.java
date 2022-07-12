@@ -54,14 +54,22 @@ public class ServiceDetailDao {
                         rk.getString("statute")
                 ),getServiceDetailBySVCIDParams);
 
-        System.out.println(data);
-        System.out.println(data.size());
         return this.jdbcTemplate.queryForObject(getServiceDetailBySVCIDQuery,
                 (rs, rowNum) -> new GetServiceDetailBySVCIDRes(
                         rs.getInt("totalCount"),
                         data.size(),
                         data
                 ));
+    }
+
+    public GetSVCIDByServiceNameRes getSVCIDByServiceName(String ServiceName){
+        String getSVCIDByServiceNameQuery = "select SVC_ID from serviceDetail where ServiceName=?";
+        String getSVCIDByServiceNameParams = ServiceName;
+
+        return this.jdbcTemplate.queryForObject(getSVCIDByServiceNameQuery,
+                (rs, rowNum) -> new GetSVCIDByServiceNameRes(
+                        rs.getString("SVC_ID")
+                ),getSVCIDByServiceNameParams);
     }
 
 }

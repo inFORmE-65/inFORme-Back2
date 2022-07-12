@@ -37,4 +37,14 @@ public class ServiceDetailProvider {
             throw new BaseException(DATABASE_ERROR);
         }
     }
+
+    public GetSVCIDByServiceNameRes getSVCIDByServiceName(String ServiceName) throws BaseException{
+        try{
+            GetSVCIDByServiceNameRes getSVC_IDRes = serviceDetailDao.getSVCIDByServiceName(ServiceName);
+            return getSVC_IDRes;
+        }
+        catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
 }
