@@ -1,6 +1,8 @@
 package com.informe.informeapisb.src.serviceList;
 
 import com.informe.informeapisb.src.serviceList.model.*;
+import com.informe.informeapisb.src.serviceList.model.recentServiceList.GetRecentServiceInfoRes;
+import com.informe.informeapisb.src.serviceList.model.recentServiceList.GetRecentServiceListRes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -59,6 +61,19 @@ public class ServiceListDao {
                                         rk.getInt("ServiceViewCount")
                                 )
                         )
+                ));
+    }
+
+    // 최신 정책 조회
+    public List<GetRecentServiceInfoRes> getRecentServiceInfoRes(){
+        String getRecentServiceInfoQuery = "select SL.SVC_ID, SL.ServiceName, SL.ServicePurpose, SL.ServiceContent\n" +
+                "from serviceList as SL;";
+        return this.jdbcTemplate.query(getRecentServiceInfoQuery,
+                (rs, rowNum) -> new GetRecentServiceInfoRes(
+                        rs.getString("SVC_ID"),
+                        rs.getString("serviceName"),
+                        rs.getString("servicePurpose"),
+                        rs.getString("serviceContent")
                 ));
     }
 }
