@@ -96,7 +96,7 @@ public class ServiceListController {
 
     // 최신 정책 조회
     @ResponseBody
-    @GetMapping("/recentService")
+    @GetMapping("/recent")
     public BaseResponse<GetRecentServiceListRes> getRecentServiceList(){
         try{
             GetRecentServiceListRes getRecentServiceListRes = serviceListProvider.getRecentServiceList();
