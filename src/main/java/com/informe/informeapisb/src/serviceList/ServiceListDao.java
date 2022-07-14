@@ -65,12 +65,11 @@ public class ServiceListDao {
     }
 
     // 최신 정책 조회
-    public List<GetRecentServiceInfoRes> getRecentServiceInfoRes(){
+    public List<GetRecentServiceInfoRes> getRecentServiceInfoRes(int offset, int limit){
         String getRecentServiceInfoQuery = "select SD.SVC_ID, SD.ServiceName, SD.ServicePurpose, SD.ServiceContent, SD.updatedAt\n" +
                 "from serviceDetail as SD\n" +
                 "order by updatedAt desc\n" +
-                "LIMIT ?;";
-        int getRecentServiceParams = 5;
+                "limit " + limit + " offset " + (offset - 1) * limit + ";";
 
         return this.jdbcTemplate.query(getRecentServiceInfoQuery,
                 (rs, rowNum) -> new GetRecentServiceInfoRes(
@@ -79,6 +78,6 @@ public class ServiceListDao {
                         rs.getString("servicePurpose"),
                         rs.getString("serviceContent"),
                         rs.getString("updatedAt")
-                ),getRecentServiceParams);
+                ));
     }
 }

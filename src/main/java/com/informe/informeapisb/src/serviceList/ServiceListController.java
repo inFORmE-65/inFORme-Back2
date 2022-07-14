@@ -97,9 +97,9 @@ public class ServiceListController {
     // 최신 정책 조회
     @ResponseBody
     @GetMapping("/recent")
-    public BaseResponse<GetRecentServiceListRes> getRecentServiceList(){
+    public BaseResponse<GetRecentServiceListRes> getRecentServiceList(@RequestParam int offset, @RequestParam int limit){
         try{
-            GetRecentServiceListRes getRecentServiceListRes = serviceListProvider.getRecentServiceList();
+            GetRecentServiceListRes getRecentServiceListRes = serviceListProvider.getRecentServiceList(offset,limit);
             return new BaseResponse<>(getRecentServiceListRes);
         }catch (BaseException exception){
             logger.error("Error!", exception);

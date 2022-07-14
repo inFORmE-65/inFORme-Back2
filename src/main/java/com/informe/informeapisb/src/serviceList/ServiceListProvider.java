@@ -43,9 +43,9 @@ public class ServiceListProvider {
     }
 
     // 최신 정책 조회
-    public GetRecentServiceListRes getRecentServiceList() throws BaseException{
+    public GetRecentServiceListRes getRecentServiceList(int offset, int limit) throws BaseException{
         try{
-            List<GetRecentServiceInfoRes> getRecentServiceInfoRes = serviceListDao.getRecentServiceInfoRes();
+            List<GetRecentServiceInfoRes> getRecentServiceInfoRes = serviceListDao.getRecentServiceInfoRes(offset, limit);
             GetRecentServiceListRes getRecentServiceListRes = new GetRecentServiceListRes(getRecentServiceInfoRes);
             return getRecentServiceListRes;
         }
