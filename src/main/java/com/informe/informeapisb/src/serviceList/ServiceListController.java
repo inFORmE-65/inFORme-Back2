@@ -3,7 +3,7 @@ package com.informe.informeapisb.src.serviceList;
 import com.informe.informeapisb.src.serviceList.model.*;
 import com.informe.informeapisb.config.BaseException;
 import com.informe.informeapisb.config.BaseResponse;
-import com.informe.informeapisb.src.serviceList.model.recentServiceList.GetRecentServiceListRes;
+import com.informe.informeapisb.src.serviceList.model.recentServiceList.GetRecentServiceInfoRes;
 import com.informe.informeapisb.utils.JwtService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -97,10 +97,10 @@ public class ServiceListController {
     // 최신 정책 조회
     @ResponseBody
     @GetMapping("/recent")
-    public BaseResponse<GetRecentServiceListRes> getRecentServiceList(@RequestParam int offset, @RequestParam int limit){
+    public BaseResponse<List<GetRecentServiceInfoRes>> getRecentServiceList(@RequestParam int offset, @RequestParam int limit){
         try{
-            GetRecentServiceListRes getRecentServiceListRes = serviceListProvider.getRecentServiceList(offset,limit);
-            return new BaseResponse<>(getRecentServiceListRes);
+            List<GetRecentServiceInfoRes> getRecentServiceInfoRes = serviceListProvider.getRecentServiceList(offset,limit);
+            return new BaseResponse<>(getRecentServiceInfoRes);
         }catch (BaseException exception){
             logger.error("Error!", exception);
             return new BaseResponse<>(exception.getStatus());

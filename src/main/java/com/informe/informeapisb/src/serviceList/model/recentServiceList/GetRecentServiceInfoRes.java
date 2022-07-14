@@ -10,7 +10,7 @@ import lombok.Setter;
 public class GetRecentServiceInfoRes {
     private String SVC_ID;
     private String serviceName;
-    private String servicePurpose;
+    private String serviceTarget;
     private String serviceContent;
     private String updatedAt;
 }

@@ -2,14 +2,12 @@ package com.informe.informeapisb.src.serviceList;
 
 import com.informe.informeapisb.src.serviceList.model.*;
 import com.informe.informeapisb.src.serviceList.model.recentServiceList.GetRecentServiceInfoRes;
-import com.informe.informeapisb.src.serviceList.model.recentServiceList.GetRecentServiceListRes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
 import java.util.List;
-import java.util.ArrayList;
 
 
 @Repository
@@ -66,7 +64,7 @@ public class ServiceListDao {
 
     // 최신 정책 조회
     public List<GetRecentServiceInfoRes> getRecentServiceInfoRes(int offset, int limit){
-        String getRecentServiceInfoQuery = "select SD.SVC_ID, SD.ServiceName, SD.ServicePurpose, SD.ServiceContent, SD.updatedAt\n" +
+        String getRecentServiceInfoQuery = "select SD.SVC_ID, SD.ServiceName, SD.ServiceTarget, SD.ServiceContent, SD.updatedAt\n" +
                 "from serviceDetail as SD\n" +
                 "order by updatedAt desc\n" +
                 "limit " + limit + " offset " + (offset - 1) * limit + ";";
@@ -75,7 +73,7 @@ public class ServiceListDao {
                 (rs, rowNum) -> new GetRecentServiceInfoRes(
                         rs.getString("SVC_ID"),
                         rs.getString("serviceName"),
-                        rs.getString("servicePurpose"),
+                        rs.getString("serviceTarget"),
                         rs.getString("serviceContent"),
                         rs.getString("updatedAt")
                 ));
