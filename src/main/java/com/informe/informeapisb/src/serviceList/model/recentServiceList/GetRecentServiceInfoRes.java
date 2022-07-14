@@ -12,4 +12,5 @@ public class GetRecentServiceInfoRes {
     private String serviceName;
     private String servicePurpose;
     private String serviceContent;
+    private String updatedAt;
 }
