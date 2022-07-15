@@ -96,7 +96,7 @@ public class ServiceListController {
     
     // 실시간 정책 목록 조회 api
     @ResponseBody
-    @PostMapping("/hits")
+    @GetMapping("/hits")
     public BaseResponse<List<GetHitsServiceListRes>> getHitsServiceList(@RequestParam int offset, @RequestParam int limit){
         try{
             List<GetHitsServiceListRes> getHitsServiceListRes = serviceListProvider.getHitsServiceList(offset, limit);
