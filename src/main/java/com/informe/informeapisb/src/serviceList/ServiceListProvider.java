@@ -3,6 +3,7 @@ package com.informe.informeapisb.src.serviceList;
 import com.informe.informeapisb.src.serviceList.model.*;
 import com.informe.informeapisb.config.BaseException;
 import com.informe.informeapisb.config.BaseResponse;
+import com.informe.informeapisb.src.serviceList.model.hits.GetHitsServiceListRes;
 import com.informe.informeapisb.utils.JwtService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,6 +11,8 @@ import static com.informe.informeapisb.config.BaseResponseStatus.*;
 import static com.informe.informeapisb.utils.ValidationRegex.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 import static com.informe.informeapisb.config.BaseResponseStatus.DATABASE_ERROR;
 import static com.informe.informeapisb.config.BaseResponseStatus.USERS_EMPTY_USER_ID;
@@ -34,6 +37,16 @@ public class ServiceListProvider {
             return getServiceListRes;
         }
         catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    // 실시간 정책 조회
+    public List<GetHitsServiceListRes> getHitsServiceList(int offset, int limit) throws BaseException{
+        try{
+            List<GetHitsServiceListRes> getHitsServiceListRes = serviceListDao.getHitsServiceList(offset, limit);
+            return getHitsServiceListRes;
+        }catch (Exception exception){
             throw new BaseException(DATABASE_ERROR);
         }
     }

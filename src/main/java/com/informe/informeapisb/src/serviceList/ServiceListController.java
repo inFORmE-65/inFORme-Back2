@@ -3,6 +3,7 @@ package com.informe.informeapisb.src.serviceList;
 import com.informe.informeapisb.src.serviceList.model.*;
 import com.informe.informeapisb.config.BaseException;
 import com.informe.informeapisb.config.BaseResponse;
+import com.informe.informeapisb.src.serviceList.model.hits.GetHitsServiceListRes;
 import com.informe.informeapisb.utils.JwtService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -89,6 +90,18 @@ public class ServiceListController {
             String result = "성공";
             return new BaseResponse<>(result);
         }catch(BaseException exception){
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+    
+    // 실시간 정책 목록 조회 api
+    @ResponseBody
+    @PostMapping("/hits")
+    public BaseResponse<List<GetHitsServiceListRes>> getHitsServiceList(@RequestParam int offset, @RequestParam int limit){
+        try{
+            List<GetHitsServiceListRes> getHitsServiceListRes = serviceListProvider.getHitsServiceList(offset, limit);
+            return new BaseResponse<>(getHitsServiceListRes);
+        }catch (BaseException exception){
             return new BaseResponse<>((exception.getStatus()));
         }
     }
