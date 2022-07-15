@@ -11,5 +11,5 @@ import java.util.List;
 public class GetServiceDetailBySVCIDRes {
     private Integer totalCount;
     private Integer matchCount;
-    private List<data> data;
+    private List<GetServiceDetailData> data;
 }

@@ -32,10 +32,8 @@ public class ServiceDetailDao {
         String GetDataQuery = "select * from serviceDetail where SVC_ID=?";
         String getServiceDetailBySVCIDParams = SVC_ID;
 
-        List<data> data = this.jdbcTemplate.query(GetDataQuery,
-                (rk, rowNum2) -> new data(
-                        rk.getString("SVC_ID"),
-                        rk.getString("SupportType"),
+        List<GetServiceDetailData> data = this.jdbcTemplate.query(GetDataQuery,
+                (rk, rowNum2) -> new GetServiceDetailData(
                         rk.getString("ServiceName"),
                         rk.getString("ServicePurpose"),
                         rk.getString("ServiceApplyDue"),
@@ -47,11 +45,7 @@ public class ServiceDetailDao {
                         rk.getString("AcceptAgencyName"),
                         rk.getString("ServiceAgencyPhone"),
                         rk.getString("ServiceUrl"),
-                        rk.getString("updatedAt"),
-                        rk.getString("ServiceAgencyName"),
-                        rk.getString("AdministrationRule"),
-                        rk.getString("SelfGoverningLaws"),
-                        rk.getString("statute")
+                        rk.getString("ServiceAgencyName")
                 ),getServiceDetailBySVCIDParams);
 
         return this.jdbcTemplate.queryForObject(getServiceDetailBySVCIDQuery,
