@@ -10,5 +10,14 @@ public class ValidationRegex {
         Matcher matcher = pattern.matcher(target);
         return matcher.find();
     }
+
+    public static boolean isRegexPhone(String target) {
+        String regex = "(\\d{3})(\\d{3,4})(\\d{4})";
+        Pattern pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(target);
+
+        return matcher.find();
+    }
+
 }
 

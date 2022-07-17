@@ -26,10 +26,20 @@ public enum BaseResponseStatus {
     USERS_EMPTY_USER_ID(false, 2010, "유저 아이디 값을 확인해주세요."),
 
     // [POST] /users
+    // 입력 오류
+    POST_USERS_EMPTY_NAME(false, 2005, "이름을 입력해주세요"),
     POST_USERS_EMPTY_EMAIL(false, 2015, "이메일을 입력해주세요."),
-    POST_USERS_INVALID_EMAIL(false, 2016, "이메일 형식을 확인해주세요."),
-    POST_USERS_EXISTS_EMAIL(false,2017,"중복된 이메일입니다."),
+    POST_USERS_EMPTY_PHONE(false, 2025, "전화번호를 입력해주세요"),
+    POST_USERS_EMPTY_PASSWORD(false, 2035, "비밀번호를 입력해주세요"),
 
+    // 형식 오류
+    POST_USERS_INVALID_NAME(false, 2006, "이름 형식을 확인해주세요."),
+    POST_USERS_INVALID_EMAIL(false, 2016, "이메일 형식을 확인해주세요."),
+    POST_USERS_INVALID_PHONE(false, 2026, "전화번호 형식을 확인해주세요"),
+    POST_USERS_INVALID_PASSWORD(false, 2036, "비밀번호 형식을 확인해주세요"),
+
+    // 중복 오류
+    POST_USERS_EXISTS_EMAIL(false,2017,"중복된 이메일입니다."),
 
 
     /**
@@ -49,6 +59,8 @@ public enum BaseResponseStatus {
      */
     DATABASE_ERROR(false, 4000, "데이터베이스 연결에 실패하였습니다."),
     SERVER_ERROR(false, 4001, "서버와의 연결에 실패하였습니다."),
+    JWT_ERROR(false, 4002, "jwt 발급에 실패했습니다."),
+    EMAIL_CHECK_ERROR(false, 4003, "이메일 체크에 실패하였습니다."),
 
     //[PATCH] /users/{userIdx}
     MODIFY_FAIL_USERNAME(false,4014,"유저네임 수정 실패"),
