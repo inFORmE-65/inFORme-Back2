@@ -26,7 +26,6 @@ public class UserDao {
                 (rs, rowNum) -> new GetUserRes(
                         rs.getInt("userIdx"),
                         rs.getString("name"),
-                        rs.getString("nickName"),
                         rs.getString("email")),
                 getUserByEmailParams);
     }
