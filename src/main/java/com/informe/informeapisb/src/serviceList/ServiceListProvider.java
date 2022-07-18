@@ -4,11 +4,10 @@ import com.informe.informeapisb.src.serviceList.model.*;
 import com.informe.informeapisb.config.BaseException;
 import com.informe.informeapisb.config.BaseResponse;
 import com.informe.informeapisb.src.serviceList.model.hits.GetHitsServiceListRes;
+import com.informe.informeapisb.src.serviceList.model.recentServiceList.GetRecentServiceInfoRes;
 import com.informe.informeapisb.utils.JwtService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import static com.informe.informeapisb.config.BaseResponseStatus.*;
-import static com.informe.informeapisb.utils.ValidationRegex.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -41,12 +40,23 @@ public class ServiceListProvider {
         }
     }
 
+
     // 실시간 정책 조회
     public List<GetHitsServiceListRes> getHitsServiceList(int offset, int limit) throws BaseException{
         try{
             List<GetHitsServiceListRes> getHitsServiceListRes = serviceListDao.getHitsServiceList(offset, limit);
             return getHitsServiceListRes;
         }catch (Exception exception){
+
+    // 최신 정책 조회
+    public List<GetRecentServiceInfoRes> getRecentServiceList(int offset, int limit) throws BaseException{
+        try{
+            List<GetRecentServiceInfoRes> getRecentServiceInfoRes = serviceListDao.getRecentServiceInfoRes(offset, limit);
+            return getRecentServiceInfoRes;
+        }
+        catch (Exception exception){
+            logger.error("Error!", exception);
+
             throw new BaseException(DATABASE_ERROR);
         }
     }

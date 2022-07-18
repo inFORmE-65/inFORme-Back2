@@ -4,6 +4,7 @@ import com.informe.informeapisb.src.serviceList.model.*;
 import com.informe.informeapisb.config.BaseException;
 import com.informe.informeapisb.config.BaseResponse;
 import com.informe.informeapisb.src.serviceList.model.hits.GetHitsServiceListRes;
+import com.informe.informeapisb.src.serviceList.model.recentServiceList.GetRecentServiceInfoRes;
 import com.informe.informeapisb.utils.JwtService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -93,6 +94,7 @@ public class ServiceListController {
             return new BaseResponse<>((exception.getStatus()));
         }
     }
+
     
     // 실시간 정책 목록 조회 api
     @ResponseBody
@@ -103,6 +105,19 @@ public class ServiceListController {
             return new BaseResponse<>(getHitsServiceListRes);
         }catch (BaseException exception){
             return new BaseResponse<>((exception.getStatus()));
+
+
+    // 최신 정책 조회
+    @ResponseBody
+    @GetMapping("/recent")
+    public BaseResponse<List<GetRecentServiceInfoRes>> getRecentServiceList(@RequestParam int offset, @RequestParam int limit){
+        try{
+            List<GetRecentServiceInfoRes> getRecentServiceInfoRes = serviceListProvider.getRecentServiceList(offset,limit);
+            return new BaseResponse<>(getRecentServiceInfoRes);
+        }catch (BaseException exception){
+            logger.error("Error!", exception);
+            return new BaseResponse<>(exception.getStatus());
+
         }
     }
 }
