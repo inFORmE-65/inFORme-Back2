@@ -81,8 +81,8 @@ public class ServiceDetailController {
 
     //Get DB 이용 ServiceDetail by SVC_ID
     @ResponseBody
-    @GetMapping("/SVC_ID/{SVC_ID}")
-    public BaseResponse<GetServiceDetailBySVCIDRes> getServiceDetailBySVCID(@PathVariable("SVC_ID")String SVC_ID){
+    @GetMapping("/SVC_ID")
+    public BaseResponse<GetServiceDetailBySVCIDRes> getServiceDetailBySVCID(@RequestParam String SVC_ID){
         try {
             GetServiceDetailBySVCIDRes getServiceDetailRes = serviceDetailProvider.getServiceDetailBySVCID(SVC_ID);
             return new BaseResponse<>(getServiceDetailRes);
@@ -93,8 +93,8 @@ public class ServiceDetailController {
 
     //Get DB 이용 SVC_ID by ServiceName
     @ResponseBody
-    @GetMapping("/SVC_NAME/{ServiceName}")
-    public BaseResponse<GetSVCIDByServiceNameRes> getSVCIDByServiceName(@PathVariable("ServiceName")String ServiceName){
+    @GetMapping("/SVC_NAME")
+    public BaseResponse<GetSVCIDByServiceNameRes> getSVCIDByServiceName(@RequestParam String ServiceName){
         try {
             GetSVCIDByServiceNameRes getSVC_IDRes = serviceDetailProvider.getSVCIDByServiceName(ServiceName);
             return new BaseResponse<>(getSVC_IDRes);
