@@ -3,6 +3,7 @@ package com.informe.informeapisb.src.serviceList;
 import com.informe.informeapisb.src.serviceList.model.*;
 import com.informe.informeapisb.config.BaseException;
 import com.informe.informeapisb.config.BaseResponse;
+import com.informe.informeapisb.src.serviceList.model.hits.GetHitsServiceListRes;
 import com.informe.informeapisb.src.serviceList.model.recentServiceList.GetRecentServiceInfoRes;
 import com.informe.informeapisb.utils.JwtService;
 import org.slf4j.Logger;
@@ -94,6 +95,18 @@ public class ServiceListController {
         }
     }
 
+    
+    // 실시간 정책 목록 조회 api
+    @ResponseBody
+    @GetMapping("/hits")
+    public BaseResponse<List<GetHitsServiceListRes>> getHitsServiceList(@RequestParam int offset, @RequestParam int limit){
+        try{
+            List<GetHitsServiceListRes> getHitsServiceListRes = serviceListProvider.getHitsServiceList(offset, limit);
+            return new BaseResponse<>(getHitsServiceListRes);
+        }catch (BaseException exception){
+            return new BaseResponse<>((exception.getStatus()));
+
+
     // 최신 정책 조회
     @ResponseBody
     @GetMapping("/recent")
@@ -104,6 +117,7 @@ public class ServiceListController {
         }catch (BaseException exception){
             logger.error("Error!", exception);
             return new BaseResponse<>(exception.getStatus());
+
         }
     }
 }

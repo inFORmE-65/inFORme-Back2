@@ -1,6 +1,7 @@
 package com.informe.informeapisb.src.serviceList;
 
 import com.informe.informeapisb.src.serviceList.model.*;
+import com.informe.informeapisb.src.serviceList.model.hits.GetHitsServiceListRes;
 import com.informe.informeapisb.src.serviceList.model.recentServiceList.GetRecentServiceInfoRes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -77,6 +78,23 @@ public class ServiceListDao {
                         rs.getString("serviceTarget"),
                         rs.getString("serviceContent"),
                         rs.getString("updatedAt")
+                ));
+    }
+
+    // 실시간 정책 조회
+    public List<GetHitsServiceListRes> getHitsServiceList(int offset, int limit){
+        String getHitsServiceQuery = "select SL.SVC_ID, SL.ServiceName, SL.ServiceTarget, SL.ServiceContent, SL.ServiceViewCount\n" +
+                "from serviceList as SL\n" +
+                "order by ServiceViewCount desc\n" +
+                "limit " + limit + " offset " + (offset - 1) * limit + ";";
+
+        return this.jdbcTemplate.query(getHitsServiceQuery,
+                (rs, rowNum) -> new GetHitsServiceListRes(
+                        rs.getString("SVC_ID"),
+                        rs.getString("serviceName"),
+                        rs.getString("serviceTarget"),
+                        rs.getString("serviceContent"),
+                        rs.getString("serviceViewCount")
                 ));
     }
 }
