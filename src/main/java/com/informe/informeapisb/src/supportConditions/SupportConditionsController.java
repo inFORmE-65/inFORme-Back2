@@ -84,6 +84,7 @@ public class SupportConditionsController {
     }
      */
 
+    /*
     @RequestMapping(value = "/test2")
     public ModelAndView test() throws Exception{
         ModelAndView mav = new ModelAndView("test");
@@ -93,6 +94,8 @@ public class SupportConditionsController {
 
         return mav;
     }
+
+     */
 
 
     //Post json 데이터 supportDetail DB 삽입
