@@ -42,11 +42,14 @@ public class ServiceListProvider {
 
 
     // 실시간 정책 조회
-    public List<GetHitsServiceListRes> getHitsServiceList(int offset, int limit) throws BaseException{
-        try{
+    public List<GetHitsServiceListRes> getHitsServiceList(int offset, int limit) throws BaseException {
+        try {
             List<GetHitsServiceListRes> getHitsServiceListRes = serviceListDao.getHitsServiceList(offset, limit);
             return getHitsServiceListRes;
-        }catch (Exception exception){
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
 
     // 최신 정책 조회
     public List<GetRecentServiceInfoRes> getRecentServiceList(int offset, int limit) throws BaseException{

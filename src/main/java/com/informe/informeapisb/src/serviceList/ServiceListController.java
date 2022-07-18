@@ -99,12 +99,14 @@ public class ServiceListController {
     // 실시간 정책 목록 조회 api
     @ResponseBody
     @GetMapping("/hits")
-    public BaseResponse<List<GetHitsServiceListRes>> getHitsServiceList(@RequestParam int offset, @RequestParam int limit){
-        try{
+    public BaseResponse<List<GetHitsServiceListRes>> getHitsServiceList(@RequestParam int offset, @RequestParam int limit) {
+        try {
             List<GetHitsServiceListRes> getHitsServiceListRes = serviceListProvider.getHitsServiceList(offset, limit);
             return new BaseResponse<>(getHitsServiceListRes);
-        }catch (BaseException exception){
+        } catch (BaseException exception) {
             return new BaseResponse<>((exception.getStatus()));
+        }
+    }
 
 
     // 최신 정책 조회
