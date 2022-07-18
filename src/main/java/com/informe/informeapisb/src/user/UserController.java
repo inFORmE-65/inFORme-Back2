@@ -62,6 +62,9 @@ public class UserController {
           if(!isRegexEmail(postUserReq.getEmail())){
               return new BaseResponse<>(POST_USERS_INVALID_EMAIL);
           }
+          if(!isRegexPassword(postUserReq.getPassword())){
+              return new BaseResponse<>(POST_USERS_INVALID_PASSWORD);
+          }
 
         // DB 저장
         try {
