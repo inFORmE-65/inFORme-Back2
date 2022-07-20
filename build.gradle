@@ -56,6 +56,9 @@ dependencies {
 
     //rss
     implementation 'com.rometools:rome:1.18.0'
+
+    //jsoup
+    implementation 'org.jsoup:jsoup:1.14.3'
 }
 
 tasks.named('test') {

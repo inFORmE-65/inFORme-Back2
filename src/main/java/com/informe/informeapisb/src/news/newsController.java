@@ -33,6 +33,11 @@ import com.rometools.rome.feed.rss.Item;
 import com.rometools.rome.feed.rss.Category;
 import org.springframework.web.util.HtmlUtils;
 
+import org.jsoup.Connection;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 @RestController
 @RequestMapping("/news")
@@ -85,7 +90,30 @@ public class newsController {
         }catch (FeedException e) {
             throw new RuntimeException(e);
         }
+    }
 
+    // top10 뉴스 크롤링
+    @ResponseBody
+    @GetMapping("/top10")
+    public BaseResponse<GetTopRes> top10() throws IOException {
+        String url = "https://www.korea.kr/news/top50List.do";
+        String baseUrl = "https://www.korea.kr";
+        List<GetTopData> data = new ArrayList<GetTopData>();
+
+        try{
+            Connection conn = Jsoup.connect(url);
+            Document document = conn.get();
+
+            Elements selects = document.select("#container > div > article > div.article-content > div > div.rank10 > ul > li");
+            for (Element select : selects) {
+                data.add(new GetTopData(select.getElementsByClass("num").text(),select.getElementsByTag("strong").text(),baseUrl + select.getElementsByTag("a").attr("href"),select.getElementsByTag("img").attr("src")));
+            }
+            GetTopRes getTopRes = new GetTopRes(data);
+
+            return new BaseResponse<>(getTopRes);
+        }catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 }
