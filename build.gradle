@@ -53,6 +53,9 @@ dependencies {
 
     //json-simple
     implementation 'com.googlecode.json-simple:json-simple:1.1.1'
+
+    //rss
+    implementation 'com.rometools:rome:1.18.0'
 }
 
 tasks.named('test') {
