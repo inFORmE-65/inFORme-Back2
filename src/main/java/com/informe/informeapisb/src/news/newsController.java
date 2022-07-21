@@ -63,8 +63,13 @@ public class newsController {
     public BaseResponse<GetFeedRes> feedReader() throws IOException {
         URL feedSource = new URL("https://www.korea.kr/rss/policy.xml");
         List<GetFeedData> data = new ArrayList<GetFeedData>();
+        //이미지 추출
         Pattern pattern1 = Pattern.compile("(<img[^>]+src\\s*=\\s*[\\\"']?([^>\\\"']+.jpg))[\\\"']?[^>]*>");
+        //문의뒤에 각 부처이름 활용
         Pattern pattern2 = Pattern.compile("(문의[^:]*:?(\\s|\\u00A0)*(\\S*))");
+        //정책브리핑의 자료가 아닌 경우, KTV자료 이용시 (공공누리 출처표시)
+        Pattern pattern3 = Pattern.compile("(<?자료=[^>]*>?)|(< ⓒ 한국정책방송원 무단전재 및 재배포 금지 >)");
+
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM월 dd일 k:m");
 
         try {
@@ -74,16 +79,22 @@ public class newsController {
                 String part = null;
                 SyndEntry syndEntry = (SyndEntry) iterator.next();
                 String Description = HtmlUtils.htmlUnescape(syndEntry.getDescription().getValue());
+                //패턴1 이미지 가져오기
                 Matcher matcher = pattern1.matcher(Description);
                 if(matcher.find()){
                     imgUrl = matcher.group(2).trim();
                 }
-                Description = Description.replaceAll("<(/)?([a-zA-Z]*)(\\s[a-zA-Z]*=[^>]*)?(\\s)*(/)?>", "").replaceAll("<!--[^>]*>","").replaceAll("(\\n)+"," ").trim();
-                matcher = pattern2.matcher(Description);
-                if(matcher.find()){
-                    part = matcher.group(3).trim();
+                Description = Description.replaceAll("(<(/)?([a-zA-Z]*)(\\s[a-zA-Z]*=[^>]*)?(\\s)*(/)?>)|(<!--[^>]*>)", "").replaceAll("(\\s|\\u00A0)+"," ").trim();
+                //패턴3과 내용이없는 기사 처리
+                matcher = pattern3.matcher(Description);
+                if(Description.length() >22 && !(matcher.find())){
+                    //패턴2 부처 가져오기
+                    matcher = pattern2.matcher(Description);
+                    if(matcher.find()){
+                        part = matcher.group(3).trim();
+                    }
+                    data.add(new GetFeedData(syndEntry.getTitle(),part,syndEntry.getLink(),imgUrl,simpleDateFormat.format(syndEntry.getPublishedDate()),Description));
                 }
-                data.add(new GetFeedData(syndEntry.getTitle(),part,syndEntry.getLink(),imgUrl,simpleDateFormat.format(syndEntry.getPublishedDate()),Description));
             }
             GetFeedRes getFeedRes = new GetFeedRes("정책정보","대한민국 정책포털 RSS 서비스",data);
             return new BaseResponse<>(getFeedRes);
