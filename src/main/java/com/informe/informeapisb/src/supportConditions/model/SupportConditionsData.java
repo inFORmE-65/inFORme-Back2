@@ -1,9 +1,5 @@
 package com.informe.informeapisb.src.supportConditions.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
-
 public class SupportConditionsData {
     //SVC_ID string: 공공서비스 고유 식별자
     private String SVC_ID;

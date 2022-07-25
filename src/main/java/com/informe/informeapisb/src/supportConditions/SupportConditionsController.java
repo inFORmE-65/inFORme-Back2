@@ -1,6 +1,7 @@
 package com.informe.informeapisb.src.supportConditions;
 
 
+import com.informe.informeapisb.src.serviceList.model.GetServiceListRes;
 import com.informe.informeapisb.src.supportConditions.model.*;
 import com.informe.informeapisb.config.BaseException;
 import com.informe.informeapisb.config.BaseResponse;
@@ -67,36 +68,23 @@ public class SupportConditionsController {
         return result.toString();
     }
 
+    //Get db 이용 ServiceList 이용
+    @ResponseBody
+    @GetMapping("/db/{page}/{perPage}")
+    public BaseResponse<GetSupportConditionsRes> getSupportConditionsRes(@PathVariable("page")int page, @PathVariable("perPage")int perPage){
+        try {
+            GetSupportConditionsRes getSupportConditionsRes = supportConditionsProvider.getSupportConditions(page, perPage);
+            return new BaseResponse<>(getSupportConditionsRes);
+        }catch (BaseException exception){
+            return new BaseResponse<>(exception.getStatus());
+        }
+    }
+
     @GetMapping("/getServiceID")
     public List<String> printServiceIds() {
         log.info("실행");
         return supportConditionsDao.getAllServiceId();
     }
-
-    /*
-    @RequestMapping("/test1")
-    public String index(Model model) {
-        // 맵퍼로부터 리스트를 받아옴.
-        List<SupportConditionsData> books = SupportConditionsMapper.getList();
-        // 모델을 통해 뷰페이지로 데이터를 전달
-        model.addAttribute("books", books);
-        return "books/index";
-    }
-     */
-
-    /*
-    @RequestMapping(value = "/test2")
-    public ModelAndView test() throws Exception{
-        ModelAndView mav = new ModelAndView("test");
-
-        List<SupportConditionsData> testList = supportConditionsService.getConditionsList();
-        mav.addObject("list", testList);
-
-        return mav;
-    }
-
-     */
-
 
     //Post json 데이터 supportDetail DB 삽입
     @ResponseBody
@@ -119,23 +107,47 @@ public class SupportConditionsController {
     // http://localhost:8080/supportConditions/hits2?offset=1&limit=10&age=10&income_range=100
     // http://localhost:8080/supportConditions/recommend?offset=1&limit=10&age=23&income_range=150
     @ResponseBody
-    @GetMapping("/recommend")
-    public BaseResponse<List<GetRecommendSupportConditionsRes>> getRecommendSupportConditions(@RequestParam int offset, @RequestParam int limit, @RequestParam int age, @RequestParam int incomeRange){
+    @GetMapping("/recommend/{page}/{perPage}")
+    public BaseResponse<List<GetRecommendSupportConditionsRes>> getRecommendSupportConditionsRes(@PathVariable("page")int page, @PathVariable("perPage")int perPage,
+                                                                                                 @RequestParam int age, @RequestParam int income_range, @RequestParam int gender, @RequestParam String area,
+                                                                                                 @RequestParam(value = "personalArray") int[] personalArray,
+                                                                                                 @RequestParam(value = "householdslArray") int[] householdslArray){
         try{
-            List<GetRecommendSupportConditionsRes> getRecommendSupportConditionsRes = supportConditionsProvider.getRecommendSupportConditions(offset, limit, age, incomeRange);
+            List<GetRecommendSupportConditionsRes> getRecommendSupportConditionsRes = supportConditionsProvider.getRecommendSupportConditions(page, perPage, age, income_range, gender, area, personalArray, householdslArray);
             return new BaseResponse<>(getRecommendSupportConditionsRes);
         }catch (BaseException exception){
+            logger.error("Error", exception);
             return new BaseResponse<>((exception.getStatus()));
         }
     }
 
     @ResponseBody
-    @GetMapping("/api2")
-    public String callApi2() throws IOException {
-        StringBuilder result = new StringBuilder();
-
-        result.append("one");
-        log.info("성공");
-        return result.toString();
+    @GetMapping("/recommend2/{page}/{perPage}")
+    public BaseResponse<List<GetRecommendSupportConditionsRes>> getRecommendSupportConditionsRes2(@PathVariable("page")int page, @PathVariable("perPage")int perPage,
+                                                                                                 @RequestParam int age, @RequestParam int income_range, @RequestParam int gender, @RequestParam String area){
+        try{
+            List<GetRecommendSupportConditionsRes> getRecommendSupportConditionsRes = supportConditionsProvider.getRecommendSupportConditions2(page, perPage, age, income_range, gender, area);
+            return new BaseResponse<>(getRecommendSupportConditionsRes);
+        }catch (BaseException exception){
+            logger.error("Error", exception);
+            return new BaseResponse<>((exception.getStatus()));
+        }
     }
+
+
+    // 수정사항
+    /*
+    @ResponseBody
+    @GetMapping("/recommend2/{page}/{perPage}/{age}/{income_range}")
+    public BaseResponse<GetSupportConditionsRes> getSupportConditionsRes(@PathVariable("page")int page, @PathVariable("perPage")int perPage, @PathVariable("age")int age, @PathVariable("income_range")int income_range){
+        try {
+            GetSupportConditionsRes getSupportConditionsRes = supportConditionsProvider.getSupportConditions2(page, perPage, age, income_range);
+            return new BaseResponse<>(getSupportConditionsRes);
+        }catch (BaseException exception){
+            return new BaseResponse<>(exception.getStatus());
+        }
+    }
+
+     */
+
 }

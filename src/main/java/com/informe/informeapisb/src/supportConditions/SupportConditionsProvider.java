@@ -37,12 +37,38 @@ public class SupportConditionsProvider {
     }
 
     // 추천 정책 조회
-    public List<GetRecommendSupportConditionsRes> getRecommendSupportConditions(int offset, int limit, int age, int income_range) throws BaseException{
+    public List<GetRecommendSupportConditionsRes> getRecommendSupportConditions(int page, int perPage, int age, int income_range, int gender, String area, int[] personalArray, int[] householdslArray) throws BaseException{
         try{
-            List<GetRecommendSupportConditionsRes> getRecommendSupportConditionsRes = supportConditionsDao.getRecommendSupportConditions(offset, limit, age, income_range);
+            List<GetRecommendSupportConditionsRes> getRecommendSupportConditionsRes = supportConditionsDao.getRecommendSupportConditions(page, perPage, age, income_range, gender, area, personalArray, householdslArray);
             return getRecommendSupportConditionsRes;
         }catch (Exception exception){
             throw new BaseException(DATABASE_ERROR);
         }
     }
+
+    public List<GetRecommendSupportConditionsRes> getRecommendSupportConditions2(int page, int perPage, int age, int income_range, int gender, String area) throws BaseException{
+        try{
+            List<GetRecommendSupportConditionsRes> getRecommendSupportConditionsRes = supportConditionsDao.getRecommendSupportConditions2(page, perPage, age, income_range, gender, area);
+            return getRecommendSupportConditionsRes;
+        }catch (Exception exception){
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    /*
+    public GetSupportConditionsRes getSupportConditions2(int page, int perPage, int age, int income_range) throws BaseException{
+        try{
+            GetSupportConditionsRes getSupportConditionsRes = supportConditionsDao.getSupportConditions2(page, perPage, age, income_range);
+            return getSupportConditionsRes;
+        }
+        catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+     */
+
+
+
+
 }

@@ -31,51 +31,141 @@ public class SupportConditionsDao {
 
     // https://cho-coding.tistory.com/131
     public List<String> getAllServiceId() {
-        //Object []insertSupportConditionsParams = new Object[] {data.getSVC_ID(),data.getJA0101(),data.getJA0102(),data.getJA0103(),data.getJA0104(),data.getJA0105(),data.getJA0106(),data.getJA0107(),data.getJA0108(),data.getJA0109(),data.getJA0110(),data.getJA0111(),data.getJA0201(),data.getJA0202(),data.getJA0203(),data.getJA0204(),data.getJA0205(),data.getJA0301(),data.getJA0302(),data.getJA0303(),data.getJA0304(),data.getJA0305(),data.getJA0306(),data.getJA0307(),data.getJA0308(),data.getJA0309(),data.getJA0310(),data.getJA0311(),data.getJA0312(),data.getJA0313(),data.getJA0314(),data.getJA0315(),data.getJA0316(),data.getJA0317(),data.getJA0318(),data.getJA0319(),data.getJA0320(),data.getJA0322(),data.getJA0323(),data.getJA0324(),data.getJA0325(),data.getJA0326(),data.getJA0327(),data.getJA0401(),data.getJA0402(),data.getJA0403(),data.getJA0404(),data.getJA0410(),data.getJA0411(),data.getJA0412(),data.getJA0413(),data.getJA0414()};
-
         List<String> serviceIdList=new ArrayList<>();
-
         serviceIdList.addAll(jdbcTemplate.queryForList("SELECT SVC_ID FROM supportConditions;", String.class));
-
-        /*
-        for (Object content:insertSupportConditionsParams){
-            serviceIdList.add(content);
-        }
-
-        serviceIdList.addAll(data.getSVC_ID(),data.getJA0101(),data.getJA0102(),data.getJA0103(),data.getJA0104(),data.getJA0105(),data.getJA0106(),data.getJA0107(),data.getJA0108(),data.getJA0109(),data.getJA0110(),data.getJA0111(),data.getJA0201(),data.getJA0202(),data.getJA0203(),data.getJA0204(),data.getJA0205(),data.getJA0301(),data.getJA0302(),data.getJA0303(),data.getJA0304(),data.getJA0305(),data.getJA0306(),data.getJA0307(),data.getJA0308(),data.getJA0309(),data.getJA0310(),data.getJA0311(),data.getJA0312(),data.getJA0313(),data.getJA0314(),data.getJA0315(),data.getJA0316(),data.getJA0317(),data.getJA0318(),data.getJA0319(),data.getJA0320(),data.getJA0322(),data.getJA0323(),data.getJA0324(),data.getJA0325(),data.getJA0326(),data.getJA0327(),data.getJA0401(),data.getJA0402(),data.getJA0403(),data.getJA0404(),data.getJA0410(),data.getJA0411(),data.getJA0412(),data.getJA0413(),data.getJA0414());
-
-        data.getSVC_ID(),data.getJA0101(),data.getJA0102(),data.getJA0103(),data.getJA0104(),data.getJA0105(),data.getJA0106(),data.getJA0107(),data.getJA0108(),data.getJA0109(),data.getJA0110(),data.getJA0111(),data.getJA0201(),data.getJA0202(),data.getJA0203(),data.getJA0204(),data.getJA0205(),data.getJA0301(),data.getJA0302(),data.getJA0303(),data.getJA0304(),data.getJA0305(),data.getJA0306(),data.getJA0307(),data.getJA0308(),data.getJA0309(),data.getJA0310(),data.getJA0311(),data.getJA0312(),data.getJA0313(),data.getJA0314(),data.getJA0315(),data.getJA0316(),data.getJA0317(),data.getJA0318(),data.getJA0319(),data.getJA0320(),data.getJA0322(),data.getJA0323(),data.getJA0324(),data.getJA0325(),data.getJA0326(),data.getJA0327(),data.getJA0401(),data.getJA0402(),data.getJA0403(),data.getJA0404(),data.getJA0410(),data.getJA0411(),data.getJA0412(),data.getJA0413(),data.getJA0414()
-
-        // serviceIdList.addAll(jdbcTemplate.queryForList("SELECT SVC_ID FROM umchwanDB.supportConditions;", String.class));
-         */
+        // for (Object content:insertSupportConditionsParams){  serviceIdList.add(content);}
         log.info("실행");
         return serviceIdList;
     }
 
     // 실시간 정책 조회
-    public List<GetRecommendSupportConditionsRes> getRecommendSupportConditions(int page, int perPage, int age, int income_range){
-        String income_query="";
-        if (0<=income_range && income_range<=50) {             // JA0201
-            income_query = " SL.JA0201='Y'";
-        } else if (51<=income_range && income_range<=75) {     // JA0202
-            income_query = " SL.JA0202='Y'";
-        } else if (76<=income_range && income_range<=100) {    // JA0203
-            income_query = " SL.JA0203='Y'";
-        } else if (101<=income_range && income_range<=200) {   // JA0204
-            income_query = " SL.JA0204='Y'";
-        } else  {                                              // JA0205
-            income_query = " SL.JA0205='Y'";
-        }
-       String getHitsServiceQuery = "select SL.SVC_ID\n" +
-                "from supportConditions as SL\n" +
-                "where SL.JA0110<="+age+"AND L.JA0111>="+age+"AND"+income_query+
-                "limit " + perPage +" offset "+ (page-1)*perPage + ";";
+    public List<GetRecommendSupportConditionsRes> getRecommendSupportConditions(int page, int perPage, int age, int income_range, int gender, String area, int[]  personalArray, int[] householdslArray){
 
-        return this.jdbcTemplate.query(getHitsServiceQuery,
+        // 소득분위 판단단
+       String income_query="";
+        if (0<=income_range && income_range<=50) {             // JA0201
+            income_query = " JA0201='Y'";
+        } else if (51<=income_range && income_range<=75) {     // JA0202
+            income_query = " JA0202='Y'";
+        } else if (76<=income_range && income_range<=100) {    // JA0203
+            income_query = " JA0203='Y'";
+        } else if (101<=income_range && income_range<=200) {   // JA0204
+            income_query = " JA0204='Y'";
+        } else  {                                              // JA0205
+            income_query = " JA0205='Y'";
+        }
+
+        // 성별 판단
+        String gender_query="";
+        if (gender==0) {               // 여성
+            gender_query="JA0102 ='Y'";
+        } else if (gender==1) {        // 남성
+            gender_query="JA0101 ='Y'";
+        }
+
+        // 개인 특성
+        String personal_query=" ";
+        int count1=0;
+        for (int a: personalArray) {
+            count1=count1+1;
+            if (a==0) {
+                int idx=300+count1;
+                if (idx==321) {
+                    idx=idx+1;
+                }
+                personal_query=personal_query.concat("OR JA0"+idx+" = 'Y' ");
+            }
+        }
+
+        // 가구 특성
+        String households__query=" ";
+        int count2=0;
+        for (int a: personalArray) {
+            count2=count2+1;
+            if (a==0) {
+                int idx=400+count2;
+                if (idx==405) {
+                    idx=idx+5;
+                }
+                personal_query=personal_query.concat("OR JA0"+idx+" = 'Y' ");
+            }
+        }
+
+        // String GetSupportConditionsQuery2 = "select count(*) as totalCount, count(*) as matchCount from supportConditions";
+        // String GetDataQuery = "select * from supportConditions "+ "limit " + perPage +" offset "+ (page-1)*perPage;
+
+        String getRecommendServiceQuery="select * from supportConditions where JA0110 <= "+age+" AND JA0111 >= "+age+
+                " AND "+income_query+" AND "+gender_query+personal_query+households__query
+                +" limit " + perPage +" offset "+ (page-1)*perPage;
+        return this.jdbcTemplate.query(getRecommendServiceQuery,
                 (rs, rowNum) -> new GetRecommendSupportConditionsRes(
-                        rs.getString("SVC_ID")
+                        rs.getString("SVC_ID"),
+                        rs.getString("JA0101"),    // 남성
+                        rs.getString("JA0102"),    // 여성
+
+                        rs.getString("JA0110"),     // 대상 연령 시작
+                        rs.getString("JA0111"),     // 대상 연령 종료
+
+                        rs.getString("JA0203"),    // 76 ~ 100
+                        rs.getString("JA0204"),     // 101 ~ 200
+
+                        rs.getString("JA0301"),    // 예비부모/난임
+                        rs.getString("JA0302"),    // 임신부
+                        rs.getString("JA0303"),    // 출산/입양
+                        rs.getString("JA0304")     // 심한 장애
                 ));
     }
+
+
+    public List<GetRecommendSupportConditionsRes> getRecommendSupportConditions2(int page, int perPage, int age, int income_range, int gender, String area){
+
+        // 소득분위 판단단
+        String income_query="";
+        if (0<=income_range && income_range<=50) {             // JA0201
+            income_query = " JA0201='Y'";
+        } else if (51<=income_range && income_range<=75) {     // JA0202
+            income_query = " JA0202='Y'";
+        } else if (76<=income_range && income_range<=100) {    // JA0203
+            income_query = " JA0203='Y'";
+        } else if (101<=income_range && income_range<=200) {   // JA0204
+            income_query = " JA0204='Y'";
+        } else  {                                              // JA0205
+            income_query = " JA0205='Y'";
+        }
+
+        // 성별 판단
+        String gender_query="";
+        if (gender==0) {               // 여성
+            gender_query="JA0102 ='Y'";
+        } else if (gender==1) {        // 남성
+            gender_query="JA0101 ='Y'";
+        }
+
+
+
+        String getRecommendServiceQuery="select * from supportConditions where JA0110 <= "+age+" AND JA0111 >= "+age+
+                " AND "+income_query+" AND "+gender_query
+                +" limit " + perPage +" offset "+ (page-1)*perPage;
+        return this.jdbcTemplate.query(getRecommendServiceQuery,
+                (rs, rowNum) -> new GetRecommendSupportConditionsRes(
+                        rs.getString("SVC_ID"),
+                        rs.getString("JA0101"),    // 남성
+                        rs.getString("JA0102"),    // 여성
+
+                        rs.getString("JA0110"),     // 대상 연령 시작
+                        rs.getString("JA0111"),     // 대상 연령 종료
+
+                        rs.getString("JA0203"),    // 76 ~ 100
+                        rs.getString("JA0204"),    // 101 ~ 200
+
+                        rs.getString("JA0301"),    // 예비부모/난임
+                        rs.getString("JA0302"),    // 임신부
+                        rs.getString("JA0303"),    // 출산/입양
+                        rs.getString("JA0304")     // 심한 장애
+                ));
+    }
+
+
 
     public GetSupportConditionsRes getSupportConditions(int page, int perPage) {
         String GetSupportConditionsQuery = "select count(*) as totalCount, count(*) as matchCount from supportConditions";
@@ -154,5 +244,6 @@ public class SupportConditionsDao {
                         data
                 ));
     }
+
 
 }
