@@ -1,24 +1,29 @@
 package com.informe.informeapisb.src.supportConditions;
 
 
+import com.informe.informeapisb.src.serviceList.model.GetServiceListRes;
 import com.informe.informeapisb.src.supportConditions.model.*;
 import com.informe.informeapisb.config.BaseException;
 import com.informe.informeapisb.config.BaseResponse;
 import com.informe.informeapisb.utils.JwtService;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import static com.informe.informeapisb.config.BaseResponseStatus.*;
 import static com.informe.informeapisb.utils.ValidationRegex.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-
+import java.util.List;
+@Slf4j
 @RestController
 @RequestMapping("/supportConditions")
 public class SupportConditionsController {
@@ -30,6 +35,8 @@ public class SupportConditionsController {
     private final SupportConditionsService supportConditionsService;
     @Autowired
     private final JwtService jwtService;
+
+    private SupportConditionsDao supportConditionsDao;
 
     public SupportConditionsController(SupportConditionsProvider supportConditionsProvider, SupportConditionsService supportConditionsService, JwtService jwtService){
         this.supportConditionsProvider = supportConditionsProvider;
@@ -58,8 +65,25 @@ public class SupportConditionsController {
         }
 
         urlConnection.disconnect();
-
         return result.toString();
+    }
+
+    //Get db 이용 ServiceList 이용
+    @ResponseBody
+    @GetMapping("/db/{page}/{perPage}")
+    public BaseResponse<GetSupportConditionsRes> getSupportConditionsRes(@PathVariable("page")int page, @PathVariable("perPage")int perPage){
+        try {
+            GetSupportConditionsRes getSupportConditionsRes = supportConditionsProvider.getSupportConditions(page, perPage);
+            return new BaseResponse<>(getSupportConditionsRes);
+        }catch (BaseException exception){
+            return new BaseResponse<>(exception.getStatus());
+        }
+    }
+
+    @GetMapping("/getServiceID")
+    public List<String> printServiceIds() {
+        log.info("실행");
+        return supportConditionsDao.getAllServiceId();
     }
 
     //Post json 데이터 supportDetail DB 삽입
@@ -78,4 +102,52 @@ public class SupportConditionsController {
             return new BaseResponse<>((exception.getStatus()));
         }
     }
+
+    // 추천 정책 조회 api
+    // http://localhost:8080/supportConditions/hits2?offset=1&limit=10&age=10&income_range=100
+    // http://localhost:8080/supportConditions/recommend?offset=1&limit=10&age=23&income_range=150
+    @ResponseBody
+    @GetMapping("/recommend/{page}/{perPage}")
+    public BaseResponse<List<GetRecommendSupportConditionsRes>> getRecommendSupportConditionsRes(@PathVariable("page")int page, @PathVariable("perPage")int perPage,
+                                                                                                 @RequestParam int age, @RequestParam int income_range, @RequestParam int gender, @RequestParam String area,
+                                                                                                 @RequestParam(value = "personalArray") int[] personalArray,
+                                                                                                 @RequestParam(value = "householdslArray") int[] householdslArray){
+        try{
+            List<GetRecommendSupportConditionsRes> getRecommendSupportConditionsRes = supportConditionsProvider.getRecommendSupportConditions(page, perPage, age, income_range, gender, area, personalArray, householdslArray);
+            return new BaseResponse<>(getRecommendSupportConditionsRes);
+        }catch (BaseException exception){
+            logger.error("Error", exception);
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
+    @ResponseBody
+    @GetMapping("/recommend2/{page}/{perPage}")
+    public BaseResponse<List<GetRecommendSupportConditionsRes>> getRecommendSupportConditionsRes2(@PathVariable("page")int page, @PathVariable("perPage")int perPage,
+                                                                                                 @RequestParam int age, @RequestParam int income_range, @RequestParam int gender, @RequestParam String area){
+        try{
+            List<GetRecommendSupportConditionsRes> getRecommendSupportConditionsRes = supportConditionsProvider.getRecommendSupportConditions2(page, perPage, age, income_range, gender, area);
+            return new BaseResponse<>(getRecommendSupportConditionsRes);
+        }catch (BaseException exception){
+            logger.error("Error", exception);
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
+
+    // 수정사항
+    /*
+    @ResponseBody
+    @GetMapping("/recommend2/{page}/{perPage}/{age}/{income_range}")
+    public BaseResponse<GetSupportConditionsRes> getSupportConditionsRes(@PathVariable("page")int page, @PathVariable("perPage")int perPage, @PathVariable("age")int age, @PathVariable("income_range")int income_range){
+        try {
+            GetSupportConditionsRes getSupportConditionsRes = supportConditionsProvider.getSupportConditions2(page, perPage, age, income_range);
+            return new BaseResponse<>(getSupportConditionsRes);
+        }catch (BaseException exception){
+            return new BaseResponse<>(exception.getStatus());
+        }
+    }
+
+     */
+
 }

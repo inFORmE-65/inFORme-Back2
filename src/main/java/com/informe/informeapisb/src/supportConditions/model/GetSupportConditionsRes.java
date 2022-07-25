@@ -15,5 +15,5 @@ public class GetSupportConditionsRes {
     private Integer totalCount;
     private Integer currentCount;
     private Integer matchCount;
-    private List<data> data;
+    private List<SupportConditionsData> data;
 }
