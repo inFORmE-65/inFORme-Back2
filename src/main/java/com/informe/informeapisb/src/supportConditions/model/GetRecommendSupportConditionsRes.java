@@ -17,6 +17,7 @@ public class GetRecommendSupportConditionsRes {
     private String JA0110;    // 대상 연령 (시작)
     private String JA0111;    // 대상 연령 (종료)
 
+    /*
     private String JA0203;    // 76 ~ 100
     private String JA0204;    // 101 ~ 200
 
@@ -24,5 +25,7 @@ public class GetRecommendSupportConditionsRes {
     private String JA0302;    // 임신부
     private String JA0303;    // 출산/입양
     private String JA0304;    // 심한 장애
+
+     */
 
 }

@@ -104,8 +104,9 @@ public class SupportConditionsDao {
                         rs.getString("JA0102"),    // 여성
 
                         rs.getString("JA0110"),     // 대상 연령 시작
-                        rs.getString("JA0111"),     // 대상 연령 종료
+                        rs.getString("JA0111")      // 대상 연령 종료
 
+                        /*
                         rs.getString("JA0203"),    // 76 ~ 100
                         rs.getString("JA0204"),     // 101 ~ 200
 
@@ -113,6 +114,8 @@ public class SupportConditionsDao {
                         rs.getString("JA0302"),    // 임신부
                         rs.getString("JA0303"),    // 출산/입양
                         rs.getString("JA0304")     // 심한 장애
+
+                         */
                 ));
     }
 
@@ -153,15 +156,19 @@ public class SupportConditionsDao {
                         rs.getString("JA0102"),    // 여성
 
                         rs.getString("JA0110"),     // 대상 연령 시작
-                        rs.getString("JA0111"),     // 대상 연령 종료
+                        rs.getString("JA0111")      // 대상 연령 종료
 
+                        /*
                         rs.getString("JA0203"),    // 76 ~ 100
-                        rs.getString("JA0204"),    // 101 ~ 200
+                        rs.getString("JA0204")     // 101 ~ 200
+
 
                         rs.getString("JA0301"),    // 예비부모/난임
                         rs.getString("JA0302"),    // 임신부
                         rs.getString("JA0303"),    // 출산/입양
                         rs.getString("JA0304")     // 심한 장애
+
+                         */
                 ));
     }
 
