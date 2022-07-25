@@ -40,4 +40,12 @@ public class UserProvider {
             throw new BaseException(EMAIL_CHECK_ERROR);
         }
     }
+
+    public int checkUserExist(int userIdx) throws BaseException {
+        try{
+            return userDao.checkUserExist(userIdx);
+        } catch (Exception exception){
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
 }
