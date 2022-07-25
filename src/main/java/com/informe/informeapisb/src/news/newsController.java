@@ -66,7 +66,7 @@ public class newsController {
         //이미지 추출
         Pattern pattern1 = Pattern.compile("(<img[^>]+src\\s*=\\s*[\\\"']?([^>\\\"']+.jpg))[\\\"']?[^>]*>");
         //문의뒤에 각 부처이름 활용
-        Pattern pattern2 = Pattern.compile("(문의[^:]*:?(\\s|\\u00A0)*(\\S*))");
+        Pattern pattern2 = Pattern.compile("((문의\\s|\\u00A0):|(문의:))(\\s|\\u00A0)*(\\S*)");
         //정책브리핑의 자료가 아닌 경우, KTV자료 이용시 (공공누리 출처표시)
         Pattern pattern3 = Pattern.compile("(<?자료=[^>]*>?)|(< ⓒ 한국정책방송원 무단전재 및 재배포 금지 >)");
 
@@ -91,9 +91,9 @@ public class newsController {
                     //패턴2 부처 가져오기
                     matcher = pattern2.matcher(Description);
                     if(matcher.find()){
-                        part = matcher.group(3).trim();
+                        part = matcher.group(5).trim();
                     }
-                    data.add(new GetFeedData(syndEntry.getTitle(),part,syndEntry.getLink(),imgUrl,simpleDateFormat.format(syndEntry.getPublishedDate()),Description));
+                    data.add(new GetFeedData(syndEntry.getTitle().trim(),part,syndEntry.getLink(),imgUrl,simpleDateFormat.format(syndEntry.getPublishedDate()),Description));
                 }
             }
             GetFeedRes getFeedRes = new GetFeedRes("정책정보","대한민국 정책포털 RSS 서비스",data);
