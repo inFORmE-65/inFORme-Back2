@@ -1,21 +1,14 @@
 package com.informe.informeapisb.src.community;
 
 import com.informe.informeapisb.src.community.model.*;
-import com.informe.informeapisb.config.secret.Secret;
 import com.informe.informeapisb.config.BaseException;
-import com.informe.informeapisb.config.BaseResponse;
 import com.informe.informeapisb.utils.JwtService;
-import com.informe.informeapisb.utils.SHA256;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import static com.informe.informeapisb.config.BaseResponseStatus.*;
-import static com.informe.informeapisb.utils.ValidationRegex.*;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-
-import static com.informe.informeapisb.config.BaseResponseStatus.*;
 
 @Service
 public class CommunityService {
@@ -31,4 +24,21 @@ public class CommunityService {
         this.communityProvider = communityProvider;
         this.jwtService = jwtService;
     }
+
+    public PostPostsRes createPost(int userIdx, PostPostsReq postPostsReq) throws BaseException {
+        try{
+            int postIdx = communityDao.insertPolicyPost(userIdx, postPostsReq.getTitle(), postPostsReq.getContent(), postPostsReq.getSVC_ID());
+            //이미지 삽입(이미지 없을 시 삽입 안함)
+            if(postPostsReq.getImgUrls().isEmpty()){
+                return new PostPostsRes(postIdx);
+            }
+            for (int i = 0; i< postPostsReq.getImgUrls().size(); i++){
+                communityDao.insertPostImg(postIdx,userIdx,postPostsReq.getImgUrls().get(i));
+            }
+            return new PostPostsRes(postIdx);
+        } catch(Exception exception){
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
 }
