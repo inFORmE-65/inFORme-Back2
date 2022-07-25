@@ -70,7 +70,7 @@ public class newsController {
         //정책브리핑의 자료가 아닌 경우, KTV자료 이용시 (공공누리 출처표시)
         Pattern pattern3 = Pattern.compile("(<?자료=[^>]*>?)|(< ⓒ 한국정책방송원 무단전재 및 재배포 금지 >)");
 
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM월 dd일 kk:mm");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM월 dd일 k:m");
 
         try {
             SyndFeed feeder = new SyndFeedInput().build(new XmlReader(feedSource));
@@ -91,7 +91,7 @@ public class newsController {
                     //패턴2 부처 가져오기
                     matcher = pattern2.matcher(Description);
                     if(matcher.find()){
-                        part = matcher.    group(5).trim();
+                        part = matcher.group(5).trim();
                     }
                     data.add(new GetFeedData(syndEntry.getTitle().trim(),part,syndEntry.getLink(),imgUrl,simpleDateFormat.format(syndEntry.getPublishedDate()),Description));
                 }
