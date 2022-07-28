@@ -31,10 +31,22 @@ public class CommunityProvider {
     }
 
     //게시물 리스트 조회
-    public List<GetPostsRes> getPost(String type) throws BaseException {
+    public List<GetPostsRes> getPosts(String type) throws BaseException {
 
         try{
-            List<GetPostsRes> getPostsRes = communityDao.getPost(type);
+            List<GetPostsRes> getPostsRes = communityDao.getPosts(type);
+            return getPostsRes;
+
+        } catch(Exception exception){
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    //단일 게시물 조회
+    public GetPostsRes getPost(int postIdx) throws BaseException {
+
+        try{
+            GetPostsRes getPostsRes = communityDao.getPost(postIdx);
             return getPostsRes;
 
         } catch(Exception exception){

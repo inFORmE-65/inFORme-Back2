@@ -44,13 +44,13 @@ public class CommunityDao {
         return this.jdbcTemplate.queryForObject(lastInsertIdxQuery,int.class);
     }
 
-    //게시물 조회
-    public List<GetPostsRes> getPost(String type) {
+    //게시물 리스트 조회
+    public List<GetPostsRes> getPosts(String type) {
         String getPostQuery;
         if(type.equals("Free")){
-            getPostQuery = "SELECT postIdx,userIdx,title,content,SVC_ID,createdAt,updatedAt,status FROM Post WHERE SVC_ID = '' and status = 'ACTIVE' ORDER BY createdAt DESC";
+            getPostQuery = "SELECT postIdx,userIdx,title,content,SVC_ID,createdAt,updatedAt FROM Post WHERE SVC_ID = '' and status = 'ACTIVE' ORDER BY createdAt DESC";
         } else {
-            getPostQuery = "SELECT postIdx,userIdx,title,content,SVC_ID,createdAt,updatedAt,status FROM Post WHERE SVC_ID != '' and status = 'ACTIVE' ORDER BY createdAt DESC";
+            getPostQuery = "SELECT postIdx,userIdx,title,content,SVC_ID,createdAt,updatedAt FROM Post WHERE SVC_ID != '' and status = 'ACTIVE' ORDER BY createdAt DESC";
         }
 
         return this.jdbcTemplate.query(getPostQuery,
@@ -63,12 +63,33 @@ public class CommunityDao {
                         rs.getString("createdAt"),
                         rs.getString("updatedAt"),
                         getImgUrls = this.jdbcTemplate.query("SELECT pi.postImgIdx,pi.imgUrl FROM PostImgUrls as pi JOIN Post as p on p.postIdx = pi.postIdx WHERE pi.status = 'ACTIVE' and p.postIdx = ? ORDER BY pi.postImgIdx ASC",
-                                (rk, rownum) -> new GetImgUrl(
+                                (rk, rowNum2) -> new GetImgUrl(
                                         rk.getInt("postImgIdx"),
                                         rk.getString("imgUrl"))
                         ,rs.getInt("postIdx"))
                 )
         );
+    }
+    
+    
+    //단일 게시물 조회
+    public GetPostsRes getPost(int postIdx){
+        String getPostQuery = "SELECT postIdx,userIdx,title,content,SVC_ID,createdAt,updatedAt FROM Post WHERE postIdx = ?";
+        int getPostParam = postIdx;
+        return this.jdbcTemplate.queryForObject(getPostQuery,
+                (rs, rowNum) -> new GetPostsRes(
+                        rs.getInt("postIdx"),
+                        rs.getInt("userIdx"),
+                        rs.getString("title"),
+                        rs.getString("content"),
+                        rs.getString("SVC_ID"),
+                        rs.getString("createdAt"),
+                        rs.getString("updatedAt"),
+                        getImgUrls = this.jdbcTemplate.query("SELECT pi.postImgIdx,pi.imgUrl FROM PostImgUrls as pi JOIN Post as p on p.postIdx = pi.postIdx WHERE pi.status = 'ACTIVE' and p.postIdx = ? ORDER BY pi.postImgIdx ASC",
+                                (rk, rowNum2) -> new GetImgUrl(
+                                        rk.getInt("postImgIdx"),
+                                        rk.getString("imgUrl"))
+                                ,rs.getInt("postIdx"))),getPostParam);
     }
 
 }

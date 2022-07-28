@@ -52,12 +52,26 @@ public class CommunityController {
     //최신 게시물 조회 api (Free or Policy)
     @ResponseBody
     @GetMapping("/{type}")
-    public BaseResponse<List<GetPostsRes>> getPost(@PathVariable("type") String type ) {
+    public BaseResponse<List<GetPostsRes>> getPosts(@PathVariable("type") String type ) {
         try{
             if(!(type.equals("Free")||type.equals("Policy"))){
                 return new BaseResponse<>(GET_POST_PATH_ERROR);
             }
-            List<GetPostsRes> getPostsRes = communityProvider.getPost(type);
+            List<GetPostsRes> getPostsRes = communityProvider.getPosts(type);
+            return new BaseResponse<>(getPostsRes);
+        } catch(BaseException exception){
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
+
+    //특정 단일 게시물 조회 api (해당 게시물의 내용)
+    @ResponseBody
+    @GetMapping("/post")
+    public BaseResponse<GetPostsRes> getPost(@RequestParam int postIdx) {
+        try{
+
+            GetPostsRes getPostsRes = communityProvider.getPost(postIdx);
             return new BaseResponse<>(getPostsRes);
         } catch(BaseException exception){
             return new BaseResponse<>((exception.getStatus()));
