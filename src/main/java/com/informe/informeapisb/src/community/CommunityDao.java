@@ -92,4 +92,24 @@ public class CommunityDao {
                                 ,rs.getInt("postIdx"))),getPostParam);
     }
 
+
+    //특정 유저의 게시물 리스트 조회
+    public List<GetPostsRes> getUserPosts(int userIdx) {
+        String getPostsQuery = "SELECT postIdx,userIdx,title,content,SVC_ID,createdAt,updatedAt FROM Post WHERE userIdx = ? and status = 'ACTIVE' ORDER BY createdAt DESC";
+        int getPostsParam = userIdx;
+        return this.jdbcTemplate.query(getPostsQuery,
+                (rs, rowNum) -> new GetPostsRes(
+                        rs.getInt("postIdx"),
+                        rs.getInt("userIdx"),
+                        rs.getString("title"),
+                        rs.getString("content"),
+                        rs.getString("SVC_ID"),
+                        rs.getString("createdAt"),
+                        rs.getString("updatedAt"),
+                        getImgUrls = this.jdbcTemplate.query("SELECT pi.postImgIdx,pi.imgUrl FROM PostImgUrls as pi JOIN Post as p on p.postIdx = pi.postIdx WHERE pi.status = 'ACTIVE' and p.postIdx = ? ORDER BY pi.postImgIdx ASC",
+                                (rk, rowNum2) -> new GetImgUrl(
+                                        rk.getInt("postImgIdx"),
+                                        rk.getString("imgUrl"))
+                                ,rs.getInt("postIdx"))),getPostsParam);
+    }
 }

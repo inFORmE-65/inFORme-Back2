@@ -53,4 +53,16 @@ public class CommunityProvider {
             throw new BaseException(DATABASE_ERROR);
         }
     }
+
+    //특정 유저의 게시물 리스트 조회
+    public List<GetPostsRes> getUserPosts(int userIdx) throws BaseException {
+
+        try{
+            List<GetPostsRes> getPostsRes = communityDao.getUserPosts(userIdx);
+            return getPostsRes;
+
+        } catch(Exception exception){
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
 }

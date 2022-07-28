@@ -70,8 +70,19 @@ public class CommunityController {
     @GetMapping("/post")
     public BaseResponse<GetPostsRes> getPost(@RequestParam int postIdx) {
         try{
-
             GetPostsRes getPostsRes = communityProvider.getPost(postIdx);
+            return new BaseResponse<>(getPostsRes);
+        } catch(BaseException exception){
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
+    //특정 유저의 게시물 리스트 조회 api (해당 게시물의 내용)
+    @ResponseBody
+    @GetMapping("/user")
+    public BaseResponse<List<GetPostsRes>> getUserPosts(@RequestParam int userIdx) {
+        try{
+            List<GetPostsRes> getPostsRes = communityProvider.getUserPosts(userIdx);
             return new BaseResponse<>(getPostsRes);
         } catch(BaseException exception){
             return new BaseResponse<>((exception.getStatus()));
