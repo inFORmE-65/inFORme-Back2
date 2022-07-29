@@ -8,6 +8,8 @@ import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
 import java.util.List;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 
 @Repository
 public class CommunityDao {
@@ -111,5 +113,23 @@ public class CommunityDao {
                                         rk.getInt("postImgIdx"),
                                         rk.getString("imgUrl"))
                                 ,rs.getInt("postIdx"))),getPostsParam);
+    }
+
+    //게시물 내용 업데이트
+    public int updatePost(int postIdx,PatchPostsReq patchPostsReq) {
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        SimpleDateFormat sdf = new SimpleDateFormat ("yyyy-MM-dd hh:mm:ss");
+        String updatePostQuery = "UPDATE Post SET title=?,content=?,SVC_ID=?,updatedAt=? WHERE postIdx=?";
+        Object []updatePostParams = new Object[] {patchPostsReq.getTitle(),patchPostsReq.getContent(),patchPostsReq.getSVC_ID(),sdf.format(timestamp),postIdx};
+        return this.jdbcTemplate.update(updatePostQuery, updatePostParams);
+    }
+
+    //이미지 업데이트
+    public int updateImg(GetImgUrl getImgUrl){
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        SimpleDateFormat sdf = new SimpleDateFormat ("yyyy-MM-dd hh:mm:ss");
+        String updateImgQuery = "UPDATE PostImgUrls SET imgUrl = ?,updatedAt=? WHERE postImgIdx=?";
+        Object []updateImgParams = new Object[] {getImgUrl.getImgUrl(),sdf.format(timestamp),getImgUrl.getPostImgIdx()};
+        return this.jdbcTemplate.update(updateImgQuery, updateImgParams);
     }
 }

@@ -90,4 +90,22 @@ public class CommunityController {
     }
 
 
+    //게시물 수정 api (사진 삭제, 추가는 아직 안 됨) 사진은 변경만 가능, 마이페이지 내가 쓴 글에서 게시글 수정가능
+    //QueryString
+    @ResponseBody
+    @PatchMapping("")
+    public BaseResponse<String> modifyPost(@RequestParam int userIdx,@RequestParam int postIdx,@RequestBody PatchPostsReq patchPostsReq) {
+        try{
+            //수정할 제목 길이 확인
+            if(patchPostsReq.getTitle().length()<2){
+                return new BaseResponse<>(POST_POSTS_EMPTY_TITLE);
+            }
+
+            communityService.modifyPost(userIdx,postIdx,patchPostsReq);
+            String result = "게시물 내용을 수정하였습니다.";
+            return new BaseResponse<>(result);
+        } catch(BaseException exception){
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
 }

@@ -44,6 +44,7 @@ public enum BaseResponseStatus {
 
 
     GET_POST_PATH_ERROR(false,2041,"Free와 Policy로만 사용할 수 있습니다"),
+    PATCH_POST_AUTH_ERROR(false,2042,"해당 게시글을 수정할 수 없습니다"),
 
 
     /**
@@ -56,7 +57,9 @@ public enum BaseResponseStatus {
     DUPLICATED_EMAIL(false, 3013, "중복된 이메일입니다."),
     FAILED_TO_LOGIN(false,3014,"없는 아이디거나 비밀번호가 틀렸습니다."),
 
+    MODIFY_FAIL_POST(false,3020,"게시물 수정을 실패하였습니다"),
 
+    MODIFY_FAIL_POST_2(false,3021,"수정할 내용이 없습니다"),
 
     /**
      * 4000 : Database, Server 오류
