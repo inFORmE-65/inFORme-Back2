@@ -50,7 +50,6 @@ public class CommunityService {
         GetPostsRes temp = communityProvider.getPost(postIdx);
 
         //원본 게시글의 작성자 Idx 와 현재 userIdx 와 비교를 통해 수정 가능한 게시물인지 검증
-        // 과 인자로 받은 userIdx, postIdx 비교를 통해 수정 가능한 게시글인지 검증
         if(userIdx != temp.getUserIdx()){
             throw new BaseException(PATCH_POST_AUTH_ERROR);
         }
@@ -59,7 +58,7 @@ public class CommunityService {
         boolean condition1 = patchPostsReq.getTitle().equals(temp.getTitle()) && patchPostsReq.getContent().equals(temp.getContent()) && patchPostsReq.getSVC_ID().equals(temp.getSVC_ID());
         int condition2 = 0;
 
-        //사진이 같은 내용이면 업데이트 건너뜀, 수정하는 imgUrl 의 Idx 가 다르다면 Update 안하고 건너뜀
+        //사진이 같은 내용이면 업데이트 건너뜀, 수정하는 imgUrl 의 Idx 가 원본 게시물의 imgUrlIdx 와 다르다면 Update 안하고 건너뜀
         for(int i=0; i<patchPostsReq.getImgUrls().size();i++){
             if(temp.getImgUrls().get(i).getImgUrl().equals(patchPostsReq.getImgUrls().get(i).getImgUrl())){
                 continue;

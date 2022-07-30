@@ -50,15 +50,17 @@ public class CommunityDao {
     public List<GetPostsRes> getPosts(String type) {
         String getPostQuery;
         if(type.equals("Free")){
-            getPostQuery = "SELECT postIdx,userIdx,title,content,SVC_ID,createdAt,updatedAt FROM Post WHERE SVC_ID = '' and status = 'ACTIVE' ORDER BY createdAt DESC";
-        } else {
-            getPostQuery = "SELECT postIdx,userIdx,title,content,SVC_ID,createdAt,updatedAt FROM Post WHERE SVC_ID != '' and status = 'ACTIVE' ORDER BY createdAt DESC";
+            getPostQuery = "SELECT p.postIdx,p.userIdx,ifnull(sL.ServiceName,'자유 게시물')as ServiceName,p.title,p.content,p.SVC_ID,p.createdAt,p.updatedAt FROM Post as p LEFT JOIN serviceList as sL on sL.SVC_ID = p.SVC_ID WHERE p.SVC_ID = '' and p.status = 'ACTIVE' ORDER BY p.createdAt DESC";
+        }
+        else{
+            getPostQuery = "SELECT p.postIdx,p.userIdx,sL.ServiceName,p.title,p.content,p.SVC_ID,p.createdAt,p.updatedAt FROM Post as p LEFT JOIN serviceList as sL on sL.SVC_ID = p.SVC_ID WHERE p.SVC_ID != '' and p.status = 'ACTIVE' ORDER BY p.createdAt DESC";
         }
 
         return this.jdbcTemplate.query(getPostQuery,
                 (rs, rowNum) -> new GetPostsRes(
                         rs.getInt("postIdx"),
                         rs.getInt("userIdx"),
+                        rs.getString("ServiceName"),
                         rs.getString("title"),
                         rs.getString("content"),
                         rs.getString("SVC_ID"),
@@ -76,12 +78,13 @@ public class CommunityDao {
     
     //단일 게시물 조회
     public GetPostsRes getPost(int postIdx){
-        String getPostQuery = "SELECT postIdx,userIdx,title,content,SVC_ID,createdAt,updatedAt FROM Post WHERE postIdx = ?";
+        String getPostQuery = "SELECT p.postIdx,p.userIdx,ifnull(sL.ServiceName,'자유 게시물')as ServiceName,p.title,p.content,p.SVC_ID,p.createdAt,p.updatedAt FROM Post as p LEFT JOIN serviceList as sL on sL.SVC_ID = p.SVC_ID WHERE postIdx = ?";
         int getPostParam = postIdx;
         return this.jdbcTemplate.queryForObject(getPostQuery,
                 (rs, rowNum) -> new GetPostsRes(
                         rs.getInt("postIdx"),
                         rs.getInt("userIdx"),
+                        rs.getString("ServiceName"),
                         rs.getString("title"),
                         rs.getString("content"),
                         rs.getString("SVC_ID"),
@@ -97,12 +100,13 @@ public class CommunityDao {
 
     //특정 유저의 게시물 리스트 조회
     public List<GetPostsRes> getUserPosts(int userIdx) {
-        String getPostsQuery = "SELECT postIdx,userIdx,title,content,SVC_ID,createdAt,updatedAt FROM Post WHERE userIdx = ? and status = 'ACTIVE' ORDER BY createdAt DESC";
+        String getPostsQuery = "SELECT p.postIdx,p.userIdx,ifnull(sL.ServiceName,'자유 게시물')as ServiceName,p.title,p.content,p.SVC_ID,p.createdAt,p.updatedAt FROM Post as p LEFT JOIN serviceList as sL on sL.SVC_ID = p.SVC_ID WHERE userIdx = ? and status = 'ACTIVE' ORDER BY createdAt DESC";
         int getPostsParam = userIdx;
         return this.jdbcTemplate.query(getPostsQuery,
                 (rs, rowNum) -> new GetPostsRes(
                         rs.getInt("postIdx"),
                         rs.getInt("userIdx"),
+                        rs.getString("ServiceName"),
                         rs.getString("title"),
                         rs.getString("content"),
                         rs.getString("SVC_ID"),

@@ -12,6 +12,7 @@ import java.util.List;
 public class GetPostsRes {
     private int postIdx;
     private int userIdx;
+    private String ServiceName;
     private String title;
     private String content;
     private String SVC_ID;
