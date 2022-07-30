@@ -10,6 +10,7 @@ import static com.informe.informeapisb.config.BaseResponseStatus.*;
 import static com.informe.informeapisb.utils.ValidationRegex.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -30,6 +31,7 @@ public class CommunityProvider {
         this.jwtService = jwtService;
     }
 
+    @Transactional(readOnly = true)
     //게시물 리스트 조회
     public List<GetPostsRes> getPosts(String type) throws BaseException {
 
@@ -42,6 +44,7 @@ public class CommunityProvider {
         }
     }
 
+    @Transactional(readOnly = true)
     //단일 게시물 조회
     public GetPostsRes getPost(int postIdx) throws BaseException {
 
@@ -54,6 +57,7 @@ public class CommunityProvider {
         }
     }
 
+    @Transactional(readOnly = true)
     //특정 유저의 게시물 리스트 조회
     public List<GetPostsRes> getUserPosts(int userIdx) throws BaseException {
 

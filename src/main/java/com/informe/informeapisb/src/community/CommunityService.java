@@ -10,6 +10,7 @@ import static com.informe.informeapisb.config.BaseResponseStatus.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class CommunityService {
@@ -26,6 +27,7 @@ public class CommunityService {
         this.jwtService = jwtService;
     }
 
+    @Transactional(rollbackFor = BaseException.class)
     public PostPostsRes createPost(int userIdx, PostPostsReq postPostsReq) throws BaseException {
         try{
             int postIdx = communityDao.insertPolicyPost(userIdx, postPostsReq.getTitle(), postPostsReq.getContent(), postPostsReq.getSVC_ID());
@@ -42,6 +44,7 @@ public class CommunityService {
         }
     }
 
+    @Transactional(rollbackFor = BaseException.class)
     //게시물 수정
     public void modifyPost(int userIdx, int postIdx, PatchPostsReq patchPostsReq) throws BaseException {
         //수정하고자 하는 게시물에서 해당 게시물의 postIdx 를 인자로 받음
