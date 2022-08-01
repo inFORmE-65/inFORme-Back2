@@ -42,6 +42,7 @@ public class UserService {
 
         try {
             int userIdx = userDao.createUser(postUserReq);
+            userDao.setProfile(userIdx);
 
             // jwt 생성
             try {
@@ -55,12 +56,12 @@ public class UserService {
         }
     }
 
-    public void setProfile(int userIdx, PostProfileReq postProfileReq) throws BaseException {
-        if(userProvider.checkUserExist(userIdx) == 0){
+    public void modifyProfile(int userIdx, PostProfileReq postProfileReq) throws BaseException {
+        if(userProvider.checkUserExist(userIdx) ==0){
             throw new BaseException(USERS_EMPTY_USER_ID);
         }
         try{
-            int result = userDao.setProfile(userIdx, postProfileReq);
+            int result = userDao.updateProfile(userIdx,postProfileReq);
             if(result == 0){
                 throw new BaseException(MODIFY_FAIL_USERNAME);
             }
@@ -68,6 +69,4 @@ public class UserService {
             throw new BaseException(DATABASE_ERROR);
         }
     }
-
-
 }
