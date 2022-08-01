@@ -75,6 +75,30 @@ public class UserController {
             return new BaseResponse<>((exception.getStatus()));
         }
     }
+
+    /**
+     * 회원 정보 수정 API
+     * [PATCH] /users/profile
+     * @return BaseResponse<PostProfileRes>
+     */
+    @ResponseBody
+    @PatchMapping("/{userIdx}")
+    public BaseResponse<String> modifyProfile(@PathVariable("userIdx") int userIdx, @RequestBody PostProfileReq postProfileReq) {
+        try {
+            int userIdxByJwt = jwtService.getUserIdx();
+            if(userIdx != userIdxByJwt) {
+                return new BaseResponse<>(INVALID_USER_JWT);
+            }
+
+            userService.modifyProfile(userIdx, postProfileReq);
+            String result = "회원 프로필을 수정했습니다.";
+
+            return new BaseResponse<>(result);
+        } catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
 }
 
 
