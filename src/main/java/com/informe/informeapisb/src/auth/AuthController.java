@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.*;
 import com.informe.informeapisb.config.BaseException;
 import com.informe.informeapisb.config.BaseResponse;
 
+import java.util.HashMap;
+
 import static com.informe.informeapisb.config.BaseResponseStatus.*;
 import static com.informe.informeapisb.utils.ValidationRegex.*;
 
@@ -58,5 +60,29 @@ public class AuthController {
         } catch (BaseException exception) {
             return new BaseResponse<>(exception.getStatus());
         }
+    }
+
+    /**
+     * 카카오 회원가입 API
+     * [GET] /auth/kakao
+     * https://kauth.kakao.com/oauth/authorize?client_id=7b1226bbe5a44b31381508a6b3ea9630&redirect_uri=http://localhost:8080/auth/kakao&response_type=code
+     */
+    @ResponseBody
+    @RequestMapping("/kakao")
+    public void kakaoUser(@RequestParam String code) {
+        // 인가 코드 받기 test (원래 클라에서)
+        //System.out.println(code);
+
+        // access_Token 받기
+        String access_Token = AuthService.getKakaoAccessToken(code);
+        System.out.println("controller access_token : " + access_Token);
+
+        // userInfo 받아오기
+        HashMap<String, Object> userInfo = AuthService.getUserInfo(access_Token);
+        System.out.println("login Controller : " + userInfo);
+
+        /*if(userInfo.get("email") != null) {
+            return new BaseResponse<>(POST_USERS_EMPTY_EMAIL);
+        }*/
     }
 }
