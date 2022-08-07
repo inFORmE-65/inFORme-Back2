@@ -34,7 +34,6 @@ public class ServiceController {
     @GetMapping("/search")
     public BaseResponse<List<GetSearchInfoRes>> getSearchServiceList(@RequestParam String word){
         try {
-            System.out.println("success");
             List<GetSearchInfoRes> getSearchInfoRes = serviceProvider.getSearchInfoResList(word);
             return new BaseResponse<>(getSearchInfoRes);
         }catch (BaseException exception){

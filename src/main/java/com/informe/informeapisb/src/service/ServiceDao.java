@@ -19,9 +19,11 @@ public class ServiceDao {
 
     // 정책 검색
     public List<GetSearchInfoRes> getSearchInfoResList(String word){
+        String search_word = "'" + word + "'";
         String getSearchServiceQuery = "select SL.SVC_ID, SL.ServiceName, SL.ServiceTarget, SL.ServiceContent\n" +
                 "from serviceList as SL\n" +
-                "where SL.ServiceName LIKE '%" + ? + "%';";
+                "where SL.ServiceName like concat('%'," + search_word + ",'%');";
+
 
         return  this.jdbcTemplate.query(getSearchServiceQuery,
                 (rs, rowNum) -> new GetSearchInfoRes(
