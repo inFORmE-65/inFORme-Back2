@@ -31,18 +31,8 @@ public class UserDao {
     }
 
     public int createUser(@NotNull PostUserReq postUserReq) {
-        String createUserQuery = "INSERT into User (name, phone, email, password) VALUES (?,?,?,?)";
-
-        // 이게 문제!!!!!
-        Object[] createUserParams = new Object[]{postUserReq.getName(), postUserReq.getPhone(), postUserReq.getEmail(), postUserReq.getPassword()};
-
-        // 이걸로 test했을 때는 성공함.. 그런거 보면 저 createUserParams가 문제인데 뭐가 문제일까...
-        Object[] createUserTest = new Object[]{"신아름", "01051102831", "ocar1115@naver.com", "dkfmaekdns"};
-
-        System.out.println(createUserTest[0].getClass().getName());
-        for (int i = 0; i<createUserTest.length; i++) {
-            System.out.println(createUserTest[i]);
-        }
+        String createUserQuery = "INSERT into User (name, nickname, phone, email, password, imgUrl, status) VALUES (?,?,?,?,?,?,?)";
+        Object[] createUserParams = new Object[]{postUserReq.getName(), postUserReq.getNickname(), postUserReq.getPhone(), postUserReq.getEmail(), postUserReq.getPassword(), postUserReq.getImgUrl(), postUserReq.getStatus()};
 
         this.jdbcTemplate.update(createUserQuery, createUserParams);
 

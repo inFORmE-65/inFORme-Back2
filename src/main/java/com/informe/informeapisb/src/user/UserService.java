@@ -42,11 +42,9 @@ public class UserService {
         }
 
         try {
-            // 여기서 계속 데이터베이스 연결 실패함. (내 계정 DB, umchwan DB 둘다 마찬가지)
-            // jwtservice 부분을 지워봐도 결과가 같은걸 보면 userDao 문제인듯
             int userIdx = userDao.createUser(postUserReq);
 
-            // jwt은 잘 생성됨.
+            // jwt 생성
             try {
                 String jwt = jwtService.createJwt(userIdx);
                 return new PostUserRes(jwt, userIdx);
