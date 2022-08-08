@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import com.informe.informeapisb.config.BaseException;
 import com.informe.informeapisb.config.BaseResponse;
 
+import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 
 import static com.informe.informeapisb.config.BaseResponseStatus.*;
@@ -61,6 +62,16 @@ public class AuthController {
             return new BaseResponse<>(exception.getStatus());
         }
     }
+
+    // https://itstudy-mary.tistory.com/212
+    // https://jhkang-tech.tistory.com/16
+    @GetMapping("/logout")
+    public String logout(HttpSession session) {
+        session.invalidate();
+        return "redirect:/login"; //주소 요청으로 변경
+    }
+
+
 
     /**
      * 카카오 회원가입 API
