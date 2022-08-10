@@ -10,6 +10,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import static com.informe.informeapisb.config.BaseResponseStatus.EMAIL_CHECK_ERROR;
+import static com.informe.informeapisb.config.BaseResponseStatus.FAILED_TO_LOGIN;
 import static org.apache.tomcat.util.net.openssl.ciphers.Encryption.AES128;
 
 @Service
@@ -23,5 +25,13 @@ public class AuthProvider {
     public AuthProvider(AuthDao authDao, JwtService jwtService) {
         this.authDao = authDao;
         this.jwtService = jwtService;
+    }
+
+    public int checkEmail(String email) throws BaseException {
+        try {
+            return authDao.checkEmail(email);
+        } catch(Exception exception) {
+            throw new BaseException(EMAIL_CHECK_ERROR);
+        }
     }
 }

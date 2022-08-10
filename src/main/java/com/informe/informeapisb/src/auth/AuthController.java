@@ -43,6 +43,7 @@ public class AuthController {
     @PostMapping("/login")
     public BaseResponse<PostLoginRes> logIn(@RequestBody PostLoginReq postLoginReq) {
         try {
+            // validation
             if(postLoginReq.getEmail() == null) {
                 return new BaseResponse<>(POST_USERS_EMPTY_EMAIL);
             }
@@ -50,8 +51,14 @@ public class AuthController {
                 return new BaseResponse<>(POST_USERS_EMPTY_PASSWORD);
             }
 
+            // 정규표현
             if(!isRegexEmail(postLoginReq.getEmail())) {
                 return new BaseResponse<>(POST_USERS_INVALID_EMAIL);
+            }
+
+            // 회원이 맞는지 확인
+            if(authProvider.checkEmail(postLoginReq.getEmail()) == 0) {
+                throw new BaseException(FAILED_TO_LOGIN);
             }
 
             PostLoginRes postLoginRes = authService.logIn(postLoginReq);
