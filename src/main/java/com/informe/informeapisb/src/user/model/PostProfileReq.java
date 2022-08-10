@@ -11,6 +11,7 @@ public class PostProfileReq {
     private String JA0101;      // 남성
     private String JA0102;      // 여성
     private String birth;       // 생년월일
+    private String age;         // 나이
 
     // 소득분위
     private String JA0201;      // 소득분위 0-50

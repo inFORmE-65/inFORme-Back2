@@ -10,6 +10,7 @@ import lombok.Setter;
 public class PostUserReq {
     private String name;
     private String nickname;
+    private String birth;
     private String phone;
     private String email;
     private String password;

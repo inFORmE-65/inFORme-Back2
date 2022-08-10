@@ -31,8 +31,8 @@ public class UserDao {
     }
 
     public int createUser(@NotNull PostUserReq postUserReq) {
-        String createUserQuery = "INSERT into User (name, nickname, phone, email, password, imgUrl, status) VALUES (?,?,?,?,?,?,?)";
-        Object[] createUserParams = new Object[]{postUserReq.getName(), postUserReq.getNickname(), postUserReq.getPhone(), postUserReq.getEmail(), postUserReq.getPassword(), postUserReq.getImgUrl(), postUserReq.getStatus()};
+        String createUserQuery = "INSERT into User (name, nickname,birth, phone, email, password, imgUrl, status) VALUES (?,?,?,?,?,?,?,?)";
+        Object[] createUserParams = new Object[]{postUserReq.getName(), postUserReq.getNickname(), postUserReq.getBirth(), postUserReq.getPhone(), postUserReq.getEmail(), postUserReq.getPassword(), postUserReq.getImgUrl(), postUserReq.getStatus()};
 
         this.jdbcTemplate.update(createUserQuery, createUserParams);
 
@@ -48,9 +48,9 @@ public class UserDao {
                 checkEmailParams);
     }
 
-    public int setProfile (int userIdx) {
-        String setProfileQuery = "INSERT into Profile (userIdx) VALUES(?)";
-        Object[] setProfileParams = new Object[]{userIdx};
+    public int setProfile (int userIdx, String birth) {
+        String setProfileQuery = "INSERT into Profile (userIdx, birth) VALUES(?,?)";
+        Object[] setProfileParams = new Object[]{userIdx, birth};
 
         return this.jdbcTemplate.update(setProfileQuery, setProfileParams);
     }
@@ -65,14 +65,14 @@ public class UserDao {
 
 
     public int updateProfile(int userIdx, PostProfileReq postProfileReq) throws BaseException {
-        String updateProfileQuery = "UPDATE Profile set JA0101=?, JA0102=?, birth=?," +
+        String updateProfileQuery = "UPDATE Profile set JA0101=?, JA0102=?, birth=?, age=?," +
                 "JA0201=?, JA0202=?, JA0203=?, JA0204=?, JA0205=?," +
                 "JA0301=?, JA0302=? ,JA0303=?, JA0304=?, JA0305=?, JA0306=?, JA0307=?, JA0308=?, JA0309=?, JA0310=?," +
                 "JA0311=?, JA0312=?, JA0313=?, JA0314=?, JA0315=?, JA0316=?, JA0317=?, JA0318=?, JA0319=?, JA0320=?," +
                 "JA0322=?, JA0323=?, JA0324=?, JA0325=?, JA0326=?, JA0327=?," +
                 "JA0401=?, JA0402=?, JA0403=?, JA0404=?," +
                 "JA0410=?, JA0411=?, JA0412=?, JA0413=?, JA0414=? where userIdx=?";
-        Object[] updateProfileParams = new Object[]{postProfileReq.getJA0101(), postProfileReq.getJA0102(), postProfileReq.getBirth(),
+        Object[] updateProfileParams = new Object[]{postProfileReq.getJA0101(), postProfileReq.getJA0102(), postProfileReq.getBirth(), postProfileReq.getAge(),
                 postProfileReq.getJA0201(), postProfileReq.getJA0202(), postProfileReq.getJA0203(), postProfileReq.getJA0204(), postProfileReq.getJA0205(),
                 postProfileReq.getJA0301(), postProfileReq.getJA0302(), postProfileReq.getJA0303(), postProfileReq.getJA0304(), postProfileReq.getJA0305(), postProfileReq.getJA0306(), postProfileReq.getJA0307(), postProfileReq.getJA0308(), postProfileReq.getJA0309(), postProfileReq.getJA0310(),
                 postProfileReq.getJA0311(), postProfileReq.getJA0312(), postProfileReq.getJA0313(), postProfileReq.getJA0314(), postProfileReq.getJA0315(), postProfileReq.getJA0316(), postProfileReq.getJA0317(), postProfileReq.getJA0318(), postProfileReq.getJA0319(), postProfileReq.getJA0320(),

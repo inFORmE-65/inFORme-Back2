@@ -42,7 +42,7 @@ public class UserService {
 
         try {
             int userIdx = userDao.createUser(postUserReq);
-            userDao.setProfile(userIdx);
+            userDao.setProfile(userIdx, postUserReq.getBirth());
 
             // jwt 생성
             try {
