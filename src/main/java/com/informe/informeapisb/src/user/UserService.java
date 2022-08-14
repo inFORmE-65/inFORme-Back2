@@ -30,6 +30,10 @@ public class UserService {
         if(userProvider.checkEmail(postUserReq.getEmail()) == 1) {
             throw new BaseException(POST_USERS_EXISTS_EMAIL);
         }
+        // 닉네임 중복 확인
+        if(userProvider.checkNickname(postUserReq.getNickname()) == 1){
+            throw new BaseException(POST_USERS_EXISTS_NICKNAME);
+        }
 
         // 데이터 암호화
         String pwd;

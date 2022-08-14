@@ -48,4 +48,12 @@ public class UserProvider {
             throw new BaseException(DATABASE_ERROR);
         }
     }
+
+    public int checkNickname(String nickname) throws BaseException {
+        try {
+            return userDao.checkNicknameExist(nickname);
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
 }

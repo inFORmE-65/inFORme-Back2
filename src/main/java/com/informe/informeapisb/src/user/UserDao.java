@@ -58,7 +58,7 @@ public class UserDao {
     }
 
     public int checkUserExist(int userIdx) {
-        String checkUserExistQuery = "select exists(select userIdx from User where userIdx = ?)";
+        String checkUserExistQuery = "select exists(select userIdx from User where userIdx = ? AND status='ACTIVE')";
         int checkUserExistParams = userIdx;
         return this.jdbcTemplate.queryForObject(checkUserExistQuery,
                 int.class,
@@ -88,9 +88,17 @@ public class UserDao {
     }
 
     public int updateUserStatus(int userIdx) throws BaseException {
-        String updateUserStatusQuery = "UPDATE User set status='INACTIVE' where userIdx = ? ";
+        String updateUserStatusQuery = "UPDATE User set status='INACTIVE' where userIdx = ?";
         Object[] updateUserStatusParams = new Object[]{userIdx};
 
         return this.jdbcTemplate.update(updateUserStatusQuery,updateUserStatusParams);
+    }
+
+    public int checkNicknameExist(String nickname) {
+        String checkUserExistQuery = "select exists(select nickname from User where nickname = ? AND status='ACTIVE')";
+        String checkUserExistParams = nickname;
+        return this.jdbcTemplate.queryForObject(checkUserExistQuery,
+                int.class,
+                checkUserExistParams);
     }
 }

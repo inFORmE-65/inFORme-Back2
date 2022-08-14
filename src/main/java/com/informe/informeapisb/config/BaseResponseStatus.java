@@ -31,6 +31,8 @@ public enum BaseResponseStatus {
     POST_USERS_EMPTY_EMAIL(false, 2015, "이메일을 입력해주세요."),
     POST_USERS_EMPTY_PHONE(false, 2025, "전화번호를 입력해주세요"),
     POST_USERS_EMPTY_PASSWORD(false, 2035, "비밀번호를 입력해주세요"),
+    POST_USERS_EMPTY_NICKNAME(false, 2045, "닉네임을 입력해주세요"),
+    POST_USERS_EMPTY_BIRTH(false, 2055, "생년월일을 입력해주세요"),
 
     // 형식 오류
     POST_USERS_INVALID_NAME(false, 2006, "이름 형식을 확인해주세요."),
@@ -40,6 +42,7 @@ public enum BaseResponseStatus {
 
     // 중복 오류
     POST_USERS_EXISTS_EMAIL(false,2017,"중복된 이메일입니다."),
+    POST_USERS_EXISTS_NICKNAME(false, 2047, "중복된 닉네임입니다"),
 
 
     /**

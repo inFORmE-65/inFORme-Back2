@@ -45,6 +45,9 @@ public class UserController {
         if(postUserReq.getName() == null) {
             return new BaseResponse<>(POST_USERS_EMPTY_NAME);
         }
+        if(postUserReq.getNickname() == null) {
+            return new BaseResponse<>(POST_USERS_EMPTY_NICKNAME);
+        }
         if(postUserReq.getPhone() == null) {
             return new BaseResponse<>(POST_USERS_EMPTY_PHONE);
         }
@@ -53,6 +56,9 @@ public class UserController {
         }
         if(postUserReq.getPassword() == null) {
             return new BaseResponse<>(POST_USERS_EMPTY_PASSWORD);
+        }
+        if(postUserReq.getBirth() == null) {
+            return new BaseResponse<>(POST_USERS_EMPTY_NICKNAME);
         }
 
         // 정규 표현
