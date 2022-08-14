@@ -10,7 +10,11 @@ import lombok.Setter;
 public class User {
     private int userIdx;
     private String name;
+    private String nickname;
+    private String birth;
     private String phone;
     private String email;
     private String password;
+    private String imgUrl;
+    private String status;
 }

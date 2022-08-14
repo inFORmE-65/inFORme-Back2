@@ -69,4 +69,19 @@ public class UserService {
             throw new BaseException(DATABASE_ERROR);
         }
     }
+
+    public void deleteUser(int userIdx) throws BaseException {
+        if(userProvider.checkUserExist(userIdx) == 0){
+            throw new BaseException(USERS_EMPTY_USER_ID);
+        }
+        try{
+            int result = userDao.updateUserStatus(userIdx);
+
+            if(result == 0){
+                throw new BaseException(DELETE_FAIL_USER);
+            }
+        } catch(Exception exception){
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
 }

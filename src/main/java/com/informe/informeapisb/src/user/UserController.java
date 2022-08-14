@@ -78,7 +78,7 @@ public class UserController {
 
     /**
      * 회원 정보 수정 API
-     * [PATCH] /users/profile
+     * [PATCH] /users
      * @return BaseResponse<PostProfileRes>
      */
     @ResponseBody
@@ -99,6 +99,28 @@ public class UserController {
         }
     }
 
+    /**
+     * 회원 탈퇴 API
+     * [PATCH] /users/{userIdx}/status
+     */
+    // 회원 삭제
+    @ResponseBody
+    @PatchMapping("/{userIdx}/status")
+    public BaseResponse<String> deleteUser(@PathVariable("userIdx") int userIdx){
+        try {
+            int userIdxByJwt = jwtService.getUserIdx();
+            if(userIdx != userIdxByJwt){
+                return new BaseResponse<>(INVALID_USER_JWT);
+            }
+
+            userService.deleteUser(userIdx);
+
+            String result = "삭제되었습니다.";
+            return new BaseResponse<>(result);
+        } catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
 }
 
 

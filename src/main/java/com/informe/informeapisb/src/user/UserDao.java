@@ -31,8 +31,10 @@ public class UserDao {
     }
 
     public int createUser(@NotNull PostUserReq postUserReq) {
+        String status = "ACTIVE";
+
         String createUserQuery = "INSERT into User (name, nickname,birth, phone, email, password, imgUrl, status) VALUES (?,?,?,?,?,?,?,?)";
-        Object[] createUserParams = new Object[]{postUserReq.getName(), postUserReq.getNickname(), postUserReq.getBirth(), postUserReq.getPhone(), postUserReq.getEmail(), postUserReq.getPassword(), postUserReq.getImgUrl(), postUserReq.getStatus()};
+        Object[] createUserParams = new Object[]{postUserReq.getName(), postUserReq.getNickname(), postUserReq.getBirth(), postUserReq.getPhone(), postUserReq.getEmail(), postUserReq.getPassword(), postUserReq.getImgUrl(), status};
 
         this.jdbcTemplate.update(createUserQuery, createUserParams);
 
@@ -41,7 +43,7 @@ public class UserDao {
     }
 
     public int checkEmail(String email) {
-        String checkEmailQuery = "select exists(select email from User where email = ?)";
+        String checkEmailQuery = "select exists(select email from User where email = ? AND status = 'ACTIVE')";
         String checkEmailParams = email;
         return this.jdbcTemplate.queryForObject(checkEmailQuery,
                 int.class,
@@ -83,5 +85,12 @@ public class UserDao {
 
         return this.jdbcTemplate.update(updateProfileQuery,updateProfileParams);
 
+    }
+
+    public int updateUserStatus(int userIdx) throws BaseException {
+        String updateUserStatusQuery = "UPDATE User set status='INACTIVE' where userIdx = ? ";
+        Object[] updateUserStatusParams = new Object[]{userIdx};
+
+        return this.jdbcTemplate.update(updateUserStatusQuery,updateUserStatusParams);
     }
 }
