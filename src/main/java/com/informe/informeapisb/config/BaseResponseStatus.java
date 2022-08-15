@@ -25,6 +25,11 @@ public enum BaseResponseStatus {
     // users
     USERS_EMPTY_USER_ID(false, 2010, "유저 아이디 값을 확인해주세요."),
 
+    POST_LIKE_EXIST(false,2011,"해당 게시물 좋아요가 이미 존재합니다."),
+    POST_LIKE_NOT_EXIST(false,2012,"해당 게시물 좋아요가 이미 존재하지 않습니다."),
+    POST_COMMENT_CANT_CHANGE(false,2013,"해당 댓글을 삭제할 수 있는 사용자가 아닙니다."),
+    POST_POST_NOT_JPG_PNG(false,2014,"JPG와 PNG 파일 외의 형식은 사용할 수 없습니다."),
+
     // [POST] /users
     // 입력 오류
     POST_USERS_EMPTY_NAME(false, 2005, "이름을 입력해주세요"),

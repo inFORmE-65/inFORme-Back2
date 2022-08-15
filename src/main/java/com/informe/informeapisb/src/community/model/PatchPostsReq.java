@@ -10,8 +10,9 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 public class PatchPostsReq {
+    private int postIdx;
+    private int userIdx;
     private String title;
     private String content;
     private String SVC_ID;
-    private List<GetImgUrl> ImgUrls;
 }

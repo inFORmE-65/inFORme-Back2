@@ -13,3 +13,7 @@ spring:
 
   jpa:
     open-in-view: false
+
+  config:
+    import:
+    - application-aws.yml

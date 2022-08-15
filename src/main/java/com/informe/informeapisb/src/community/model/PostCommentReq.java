@@ -7,9 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class PostPostsReq {
-    private int userIdx;
-    private String title;
+public class PostCommentReq {
     private String content;
-    private String SVC_ID;
+    private int parentCommentIdx;
 }

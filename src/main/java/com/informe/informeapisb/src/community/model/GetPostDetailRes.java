@@ -9,7 +9,7 @@ import java.util.List;
 @Getter
 @Setter
 @AllArgsConstructor
-public class GetPostsRes {
+public class GetPostDetailRes {
     private int postIdx;
     private int userIdx;
     private String nickname;
@@ -26,4 +26,7 @@ public class GetPostsRes {
     private String createdAt;
     private String updatedAt;
     private List<GetImgData> ImgDataList;
+    //총 댓글 수
+    private int CommentCount;
+    private List<GetPostCommentDetail> CommentList;
 }

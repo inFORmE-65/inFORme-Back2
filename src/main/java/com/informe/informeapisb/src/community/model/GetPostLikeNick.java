@@ -9,7 +9,6 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class GetImgUrl {
-    private int postImgIdx;
-    private String imgUrl;
+public class GetPostLikeNick {
+    private String nickname;
 }
