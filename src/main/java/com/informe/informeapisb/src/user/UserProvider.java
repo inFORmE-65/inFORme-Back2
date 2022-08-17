@@ -1,12 +1,15 @@
 package com.informe.informeapisb.src.user;
 
 import com.informe.informeapisb.config.BaseException;
+import com.informe.informeapisb.src.user.model.GetScrapRes;
 import com.informe.informeapisb.src.user.model.GetUserRes;
 import com.informe.informeapisb.utils.JwtService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 import static com.informe.informeapisb.config.BaseResponseStatus.*;
 
@@ -53,6 +56,20 @@ public class UserProvider {
         try {
             return userDao.checkNicknameExist(nickname);
         } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    public List<GetScrapRes> scrapList(int userIdx) throws BaseException {
+        if(checkUserExist(userIdx) == 0){
+            throw new BaseException(USERS_EMPTY_USER_ID);
+        }
+
+        try {
+            List<GetScrapRes> getscraps = userDao.selectScrap(userIdx);
+
+            return getscraps;
+        } catch(Exception exception){
             throw new BaseException(DATABASE_ERROR);
         }
     }

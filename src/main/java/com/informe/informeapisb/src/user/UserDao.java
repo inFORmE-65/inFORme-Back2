@@ -66,7 +66,7 @@ public class UserDao {
     }
 
 
-    public int updateProfile(int userIdx, PostProfileReq postProfileReq) throws BaseException {
+    public int updateProfile(int userIdx, PostProfileReq postProfileReq) {
         String updateProfileQuery = "UPDATE Profile set JA0101=?, JA0102=?, birth=?, age=?," +
                 "JA0201=?, JA0202=?, JA0203=?, JA0204=?, JA0205=?," +
                 "JA0301=?, JA0302=? ,JA0303=?, JA0304=?, JA0305=?, JA0306=?, JA0307=?, JA0308=?, JA0309=?, JA0310=?," +
@@ -87,7 +87,7 @@ public class UserDao {
 
     }
 
-    public int updateUserStatus(int userIdx) throws BaseException {
+    public int updateUserStatus(int userIdx) {
         String updateUserStatusQuery = "UPDATE User set status='INACTIVE' where userIdx = ?";
         Object[] updateUserStatusParams = new Object[]{userIdx};
 
@@ -101,4 +101,40 @@ public class UserDao {
                 int.class,
                 checkUserExistParams);
     }
+
+    public int scrapService(int userIdx, PostScrapReq postScrapReq) {
+        String scrapServiceQuery = "INSERT into Scrap (userIdx, SVC_ID) VALUES(?,?)";
+        Object[] scrapServiceParams = new Object[]{userIdx, postScrapReq.getSVC_ID()};
+
+        this.jdbcTemplate.update(scrapServiceQuery, scrapServiceParams);
+
+        String lastInsertIdQuery = "select last_insert_id()";
+        return this.jdbcTemplate.queryForObject(lastInsertIdQuery, int.class);
+    }
+
+    public List<GetScrapRes> selectScrap(int userIdx) {
+        String selectScrapQuery = "SELECT s.userIdx, SL.SVC_ID, SL.ServiceName, SL.ServiceTarget, SL.ServiceContent \n" +
+                "FROM Scrap as s join serviceList as SL on s.SVC_ID = SL.SVC_ID \n" +
+                "WHERE s.userIdx = ?";
+        int selectScrapParam = userIdx;
+
+        return this.jdbcTemplate.query(selectScrapQuery,
+                (rs,rowNum) -> new GetScrapRes(
+                        rs.getInt("userIdx"),
+                        rs.getString("SVC_ID"),
+                        rs.getString("serviceName"),
+                        rs.getString("serviceTarget"),
+                        rs.getString("serviceContent")),selectScrapParam);
+    }
+
+    public int deleteScrap(int userIdx, PostScrapReq postScrapReq) {
+        String deleteScrapQuery = "DELETE FROM Scrap WHERE userIdx = ? AND SVC_ID = ?";
+        Object[] deleteScrapParams = new Object[]{userIdx, postScrapReq.getSVC_ID()};
+
+        System.out.print(userIdx);
+        System.out.print(postScrapReq.getSVC_ID());
+
+        return this.jdbcTemplate.update(deleteScrapQuery, deleteScrapParams);
+    }
+
 }

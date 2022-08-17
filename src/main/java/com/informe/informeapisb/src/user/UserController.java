@@ -9,6 +9,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 import static com.informe.informeapisb.config.BaseResponseStatus.*;
 import static com.informe.informeapisb.utils.ValidationRegex.*;
 
@@ -127,6 +129,74 @@ public class UserController {
             return new BaseResponse<>((exception.getStatus()));
         }
     }
+
+    /**
+     * 정책 스크랩 API
+     * [POST] /users/scrap/{userIdx}
+     */
+    @ResponseBody
+    @PostMapping("/scrap/{userIdx}")      // (POST) localhost:8080/users/scrap/{userIdx}
+    public BaseResponse<String> scrapService(@PathVariable("userIdx") int userIdx, @RequestBody PostScrapReq postScrapReq) {
+        try {
+            // 유효한 사용자인지 검사
+            int userIdxByJwt = jwtService.getUserIdx();
+
+            if(userIdx != userIdxByJwt) {
+                return new BaseResponse<>(INVALID_USER_JWT);
+            }
+
+            userService.scrapService(userIdx, postScrapReq);
+            String result = "스크랩 했습니다.";
+
+            return new BaseResponse<>(result);
+        } catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
+    /**
+     * 정책 스크랩 취소
+     * [DELETE] /users/scrap/{userIdx}
+     */
+    @ResponseBody
+    @DeleteMapping("/scrap/delete/{userIdx}")
+    public BaseResponse<String> deleteScrap(@PathVariable("userIdx") int userIdx, @RequestBody PostScrapReq postScrapReq) {
+        try {
+            int userIdxByJwt = jwtService.getUserIdx();
+            if (userIdx != userIdxByJwt) {
+                return new BaseResponse<>(INVALID_USER_JWT);
+            }
+            userService.deleteScrap(userIdx, postScrapReq);
+
+            String result = "스크랩 취소했습니다.";
+            return new BaseResponse<>(result);
+        } catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
+
+    /**
+     * 정책 스크랩 목록 확인
+     * [GET] /users/scrap/{userIdx}
+     */
+    @ResponseBody
+    @GetMapping("/scrap/{userIdx}")
+    public BaseResponse<List<GetScrapRes>> scrapList(@PathVariable("userIdx") int userIdx) {
+        try {
+            int userIdxByJwt = jwtService.getUserIdx();
+            if (userIdx != userIdxByJwt) {
+                return new BaseResponse<>(INVALID_USER_JWT);
+            }
+
+            List<GetScrapRes> getscrap = userProvider.scrapList(userIdx);
+
+            return new BaseResponse<>(getscrap);
+        } catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
 }
 
 

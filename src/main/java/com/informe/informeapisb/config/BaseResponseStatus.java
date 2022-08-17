@@ -53,6 +53,7 @@ public enum BaseResponseStatus {
 
     FAILED_TO_LOGIN(false,3014,"없는 아이디거나 비밀번호가 틀렸습니다."),
     DELETE_FAIL_USER(false, 3015, "유저를 삭제하는데 실패하였습니다"),
+    DELETE_FAIL_SCRAP(false, 3016, "스크랩 취소에 실패했습니다"),
 
 
 

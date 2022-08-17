@@ -88,4 +88,33 @@ public class UserService {
             throw new BaseException(DATABASE_ERROR);
         }
     }
+
+    public void scrapService(int userIdx, PostScrapReq postScrapReq) throws BaseException {
+        if(userProvider.checkUserExist(userIdx) == 0) {
+            throw new BaseException(USERS_EMPTY_USER_ID);
+        }
+        System.out.println(postScrapReq.getSVC_ID());
+        try {
+            int scrapIdx = userDao.scrapService(userIdx, postScrapReq);
+            System.out.print(scrapIdx);
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+
+    public void deleteScrap(int userIdx, PostScrapReq postScrapReq) throws BaseException {
+        if (userProvider.checkUserExist(userIdx) == 0) {
+            throw new BaseException(USERS_EMPTY_USER_ID);
+        }
+        try {
+            int result = userDao.deleteScrap(userIdx, postScrapReq);
+
+            if (result == 0) {
+                throw new BaseException(DELETE_FAIL_SCRAP);
+            }
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
 }
