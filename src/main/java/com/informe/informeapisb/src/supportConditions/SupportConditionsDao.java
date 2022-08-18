@@ -120,7 +120,7 @@ public class SupportConditionsDao {
     }
 
 
-    public List<GetRecommendSupportConditionsRes> getRecommendSupportConditions2(int page, int perPage, int age, int income_range, int gender, String area){
+    public List<GetRecommendSupportConditionsRes> getRecommendSupportConditions2(int page, int perPage, int age, int income_range, int gender){
 
         // 소득분위 판단단
         String income_query="";
@@ -157,18 +157,6 @@ public class SupportConditionsDao {
 
                         rs.getString("JA0110"),     // 대상 연령 시작
                         rs.getString("JA0111")      // 대상 연령 종료
-
-                        /*
-                        rs.getString("JA0203"),    // 76 ~ 100
-                        rs.getString("JA0204")     // 101 ~ 200
-
-
-                        rs.getString("JA0301"),    // 예비부모/난임
-                        rs.getString("JA0302"),    // 임신부
-                        rs.getString("JA0303"),    // 출산/입양
-                        rs.getString("JA0304")     // 심한 장애
-
-                         */
                 ));
     }
 
@@ -249,6 +237,81 @@ public class SupportConditionsDao {
                         data.size(),
                         rs.getInt("matchCount"),
                         data
+                ));
+    }
+
+
+    public List<GetProfileData> getProfile(String userIdx) {
+        // String GetProfileQuery = "select count(*) as totalCount, count(*) as matchCount from supportConditions";
+        // String GetDataQuery = "select * from supportConditions "+ "limit " + perPage +" offset "+ (page-1)*perPage;
+        String GetProfileQuery="select * from umchwanDB.Profile where userIdx = "+userIdx;
+
+
+
+
+        return this.jdbcTemplate.query(GetProfileQuery,
+                (rk, rowNum1) -> new GetProfileData(
+                        rk.getString("userIdx"),
+                        rk.getString("birth"),
+                        rk.getString("age"),
+                        rk.getString("JA0101"),
+                        rk.getString("JA0102"),
+                        // rk.getString("JA0103"),
+                        // rk.getString("JA0104"),
+                        // rk.getString("JA0105"),
+                        // rk.getString("JA0106"),
+                        // rk.getString("JA0107"),
+                        // rk.getString("JA0108"),
+                        // rk.getString("JA0109"),
+                        // rk.getString("JA0110"),
+                        // rk.getString("JA0111"),
+
+                        rk.getString("JA0201"),
+                        rk.getString("JA0202"),
+                        rk.getString("JA0203"),
+                        rk.getString("JA0204"),
+                        rk.getString("JA0205"),
+
+                        rk.getString("JA0301"),
+                        rk.getString("JA0302"),
+                        rk.getString("JA0303"),
+                        rk.getString("JA0304"),
+                        rk.getString("JA0305"),
+                        rk.getString("JA0306"),
+                        rk.getString("JA0307"),
+                        rk.getString("JA0308"),
+                        rk.getString("JA0309"),
+
+                        rk.getString("JA0310"),
+                        rk.getString("JA0311"),
+                        rk.getString("JA0312"),
+                        rk.getString("JA0313"),
+                        rk.getString("JA0314"),
+                        rk.getString("JA0315"),
+                        rk.getString("JA0316"),
+                        rk.getString("JA0317"),
+                        rk.getString("JA0318"),
+                        rk.getString("JA0319"),
+
+                        rk.getString("JA0320"),
+                        rk.getString("JA0322"),
+                        rk.getString("JA0323"),
+                        rk.getString("JA0324"),
+                        rk.getString("JA0325"),
+                        rk.getString("JA0326"),
+                        rk.getString("JA0327"),
+
+                        rk.getString("JA0401"),
+                        rk.getString("JA0402"),
+                        rk.getString("JA0403"),
+                        rk.getString("JA0404"),
+
+                        rk.getString("JA0410"),
+                        rk.getString("JA0411"),
+                        rk.getString("JA0412"),
+                        rk.getString("JA0413"),
+                        rk.getString("JA0414")
+
                 ));
     }
 
