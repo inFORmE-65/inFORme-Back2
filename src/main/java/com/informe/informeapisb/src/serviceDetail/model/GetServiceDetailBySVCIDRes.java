@@ -8,11 +8,8 @@ import java.util.List;
 @Getter
 @Setter
 @AllArgsConstructor
-public class GetServiceDetailRes {
-    private Integer page;
-    private Integer perPage;
+public class GetServiceDetailBySVCIDRes {
     private Integer totalCount;
-    private Integer currentCount;
     private Integer matchCount;
-    private List<data> data;
+    private List<GetServiceDetailData> data;
 }

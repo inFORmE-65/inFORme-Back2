@@ -19,7 +19,7 @@ public class data {
     //지원대상 string: 공공서비스 지원대상
     private String 지원대상;//ServiceTarget;
     //선정기준 string: 지원대상 선정기준
-    private String 선정기준;//TartgetCriteria;
+    private String 선정기준;//TargetCriteria;
     //지원내용 string: 공공서비스 지원내용
     private String 지원내용;//ServiceContent;
     //신청방법 string: 공공서비스 신청방법

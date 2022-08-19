@@ -7,11 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class data {
-    //SVC_ID string: 공공서비스 고유 식별자
-    private String SVC_ID;
-    //지원유형 string
-    private String 지원유형;//SupportType;
+public class GetServiceDetailData {
     //서비스명 string
     private String 서비스명;//ServiceName;
     //서비스목적 string
@@ -34,14 +30,6 @@ public class data {
     private String 문의처전화번호;//ServiceAgencyPhone;
     //온라인신청사이트URL string
     private String 온라인신청사이트URL;//ServiceUrl;
-    //수정일시 string
-    private String 수정일시;//updatedAt;
     //소관기관명 string
     private String 소관기관명;//ServiceAgencyName;
-    //행정규칙 string
-    private String 행정규칙;//AdministrationRule;
-    //자치법규 string
-    private String 자치법규;//SelfGoverningLaws;
-    //법령 string
-    private String 법령;//statute;
 }
