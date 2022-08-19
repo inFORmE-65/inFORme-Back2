@@ -2,17 +2,15 @@ package com.informe.informeapisb.src.supportConditions;
 
 import com.informe.informeapisb.src.supportConditions.model.*;
 import com.informe.informeapisb.config.BaseException;
-import com.informe.informeapisb.config.BaseResponse;
 import com.informe.informeapisb.utils.JwtService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import static com.informe.informeapisb.config.BaseResponseStatus.*;
-import static com.informe.informeapisb.utils.ValidationRegex.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 import static com.informe.informeapisb.config.BaseResponseStatus.DATABASE_ERROR;
-import static com.informe.informeapisb.config.BaseResponseStatus.USERS_EMPTY_USER_ID;
 
 @Service
 public class SupportConditionsProvider {
@@ -27,4 +25,50 @@ public class SupportConditionsProvider {
         this.supportConditionsDao = supportConditionsDao;
         this.jwtService = jwtService;
     }
+
+    public GetSupportConditionsRes getSupportConditions(int page, int perPage) throws BaseException{
+        try{
+            GetSupportConditionsRes getSupportConditionsRes = supportConditionsDao.getSupportConditions(page, perPage);
+            return getSupportConditionsRes;
+        }
+        catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    // 추천 정책 조회
+    public List<GetRecommendSupportConditionsRes> getRecommendSupportConditions(int page, int perPage, int age, int income_range, int gender, String area, int[] personalArray, int[] householdslArray) throws BaseException{
+        try{
+            List<GetRecommendSupportConditionsRes> getRecommendSupportConditionsRes = supportConditionsDao.getRecommendSupportConditions(page, perPage, age, income_range, gender, area, personalArray, householdslArray);
+            return getRecommendSupportConditionsRes;
+        }catch (Exception exception){
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    public List<GetRecommendSupportConditionsRes> getRecommendSupportConditions2(int page, int perPage, int age, int income_range, int gender, String area) throws BaseException{
+        try{
+            List<GetRecommendSupportConditionsRes> getRecommendSupportConditionsRes = supportConditionsDao.getRecommendSupportConditions2(page, perPage, age, income_range, gender, area);
+            return getRecommendSupportConditionsRes;
+        }catch (Exception exception){
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    /*
+    public GetSupportConditionsRes getSupportConditions2(int page, int perPage, int age, int income_range) throws BaseException{
+        try{
+            GetSupportConditionsRes getSupportConditionsRes = supportConditionsDao.getSupportConditions2(page, perPage, age, income_range);
+            return getSupportConditionsRes;
+        }
+        catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+     */
+
+
+
+
 }

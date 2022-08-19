@@ -21,7 +21,7 @@ import java.net.URL;
 @RestController
 @RequestMapping("/serviceDetail")
 public class ServiceDetailController {
-    final Logger logger = LoggerFactory.getLogger(this.getClass());
+
 
     @Autowired
     private final ServiceDetailProvider serviceDetailProvider;

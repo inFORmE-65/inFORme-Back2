@@ -1,21 +1,16 @@
 package com.informe.informeapisb.src.supportConditions;
 
 import com.informe.informeapisb.src.supportConditions.model.*;
-import com.informe.informeapisb.config.secret.Secret;
 import com.informe.informeapisb.config.BaseException;
-import com.informe.informeapisb.config.BaseResponse;
 import com.informe.informeapisb.utils.JwtService;
-import com.informe.informeapisb.utils.SHA256;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import static com.informe.informeapisb.config.BaseResponseStatus.*;
-import static com.informe.informeapisb.utils.ValidationRegex.*;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-
-import static com.informe.informeapisb.config.BaseResponseStatus.*;
 
 @Service
 public class SupportConditionsService {
@@ -33,7 +28,7 @@ public class SupportConditionsService {
     }
 
     //SupportDetail 삽입
-    public void createSupportConditions(int size, List<data> data) throws BaseException {
+    public void createSupportConditions(int size, List<SupportConditionsData> data) throws BaseException {
         try {
             for (int i = 0; i < size; i++) {
                 supportConditionsDao.insertSupportConditions(data.get(i));
