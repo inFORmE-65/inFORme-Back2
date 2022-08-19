@@ -23,7 +23,7 @@ public class CommunityDao {
             "FROM Post as p\n" +
             "         JOIN (select postIdx, userIdx, status from PostLike where status = 'ACTIVE') ln on ln.postIdx = p.postIdx\n" +
             "         LEFT JOIN (select userIdx, nickname from User) u on u.userIdx = ln.userIdx\n" +
-            "WHERE p.status = 'ACTIVE' and p.SVC_ID != '' and p.postIdx = ?\n" +
+            "WHERE p.status = 'ACTIVE' and p.postIdx = ?\n" +
             "ORDER BY p.createdAt DESC";
 
     String ImgDataListQuery = "SELECT pi.postImgIdx,pi.origFileName,pi.fileName,pi.filePath,pi.fileSize\n"+
