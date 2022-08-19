@@ -1,8 +1,7 @@
 package com.informe.informeapisb.src.user;
 
 import com.informe.informeapisb.config.BaseException;
-import com.informe.informeapisb.src.user.model.PostUserReq;
-import com.informe.informeapisb.src.user.model.PostUserRes;
+import com.informe.informeapisb.src.user.model.*;
 import com.informe.informeapisb.utils.JwtService;
 import com.informe.informeapisb.utils.SHA256;
 import org.slf4j.Logger;
@@ -31,6 +30,10 @@ public class UserService {
         if(userProvider.checkEmail(postUserReq.getEmail()) == 1) {
             throw new BaseException(POST_USERS_EXISTS_EMAIL);
         }
+        // 닉네임 중복 확인
+        if(userProvider.checkNickname(postUserReq.getNickname()) == 1){
+            throw new BaseException(POST_USERS_EXISTS_NICKNAME);
+        }
 
         // 데이터 암호화
         String pwd;
@@ -42,16 +45,73 @@ public class UserService {
         }
 
         try {
-            // 여기서 계속 데이터베이스 연결 실패함. (내 계정 DB, umchwan DB 둘다 마찬가지)
-            // jwtservice 부분을 지워봐도 결과가 같은걸 보면 userDao 문제인듯
             int userIdx = userDao.createUser(postUserReq);
+            userDao.setProfile(userIdx, postUserReq.getBirth());
 
-            // jwt은 잘 생성됨.
+            // jwt 생성
             try {
                 String jwt = jwtService.createJwt(userIdx);
                 return new PostUserRes(jwt, userIdx);
             } catch (Exception exception) {
                 throw new BaseException(JWT_ERROR);
+            }
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    public void modifyProfile(int userIdx, PostProfileReq postProfileReq) throws BaseException {
+        if(userProvider.checkUserExist(userIdx) ==0){
+            throw new BaseException(USERS_EMPTY_USER_ID);
+        }
+        try{
+            int result = userDao.updateProfile(userIdx,postProfileReq);
+            if(result == 0){
+                throw new BaseException(MODIFY_FAIL_USERNAME);
+            }
+        } catch(Exception exception){
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    public void deleteUser(int userIdx) throws BaseException {
+        if(userProvider.checkUserExist(userIdx) == 0){
+            throw new BaseException(USERS_EMPTY_USER_ID);
+        }
+        try{
+            int result = userDao.updateUserStatus(userIdx);
+
+            if(result == 0){
+                throw new BaseException(DELETE_FAIL_USER);
+            }
+        } catch(Exception exception){
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    public void scrapService(int userIdx, PostScrapReq postScrapReq) throws BaseException {
+        if(userProvider.checkUserExist(userIdx) == 0) {
+            throw new BaseException(USERS_EMPTY_USER_ID);
+        }
+        System.out.println(postScrapReq.getSVC_ID());
+        try {
+            int scrapIdx = userDao.scrapService(userIdx, postScrapReq);
+            System.out.print(scrapIdx);
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+
+    public void deleteScrap(int userIdx, PostScrapReq postScrapReq) throws BaseException {
+        if (userProvider.checkUserExist(userIdx) == 0) {
+            throw new BaseException(USERS_EMPTY_USER_ID);
+        }
+        try {
+            int result = userDao.deleteScrap(userIdx, postScrapReq);
+
+            if (result == 0) {
+                throw new BaseException(DELETE_FAIL_SCRAP);
             }
         } catch (Exception exception) {
             throw new BaseException(DATABASE_ERROR);

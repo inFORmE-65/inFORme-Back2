@@ -36,7 +36,12 @@ public enum BaseResponseStatus {
     POST_USERS_EMPTY_EMAIL(false, 2015, "이메일을 입력해주세요."),
     POST_USERS_EMPTY_PHONE(false, 2025, "전화번호를 입력해주세요"),
     POST_USERS_EMPTY_PASSWORD(false, 2035, "비밀번호를 입력해주세요"),
+
     POST_POSTS_EMPTY_TITLE(false,2040,"제목은 두 글자 이상으로 작성해주세요"),
+
+    POST_USERS_EMPTY_NICKNAME(false, 2045, "닉네임을 입력해주세요"),
+    POST_USERS_EMPTY_BIRTH(false, 2055, "생년월일을 입력해주세요"),
+
 
     // 형식 오류
     POST_USERS_INVALID_NAME(false, 2006, "이름 형식을 확인해주세요."),
@@ -46,6 +51,7 @@ public enum BaseResponseStatus {
 
     // 중복 오류
     POST_USERS_EXISTS_EMAIL(false,2017,"중복된 이메일입니다."),
+    POST_USERS_EXISTS_NICKNAME(false, 2047, "중복된 닉네임입니다"),
 
 
     GET_POST_PATH_ERROR(false,2041,"Free와 Policy로만 사용할 수 있습니다"),
@@ -58,9 +64,9 @@ public enum BaseResponseStatus {
     // Common
     RESPONSE_ERROR(false, 3000, "값을 불러오는데 실패하였습니다."),
 
-    // [POST] /users
-    DUPLICATED_EMAIL(false, 3013, "중복된 이메일입니다."),
     FAILED_TO_LOGIN(false,3014,"없는 아이디거나 비밀번호가 틀렸습니다."),
+    DELETE_FAIL_USER(false, 3015, "유저를 삭제하는데 실패하였습니다"),
+    DELETE_FAIL_SCRAP(false, 3016, "스크랩 취소에 실패했습니다"),
 
     MODIFY_FAIL_POST(false,3020,"게시물 수정을 실패하였습니다"),
 
@@ -79,10 +85,6 @@ public enum BaseResponseStatus {
 
     PASSWORD_ENCRYPTION_ERROR(false, 4011, "비밀번호 암호화에 실패하였습니다."),
     PASSWORD_DECRYPTION_ERROR(false, 4012, "비밀번호 복호화에 실패하였습니다.");
-
-
-    // 5000 : 필요시 만들어서 쓰세요
-    // 6000 : 필요시 만들어서 쓰세요
 
 
     private final boolean isSuccess;
