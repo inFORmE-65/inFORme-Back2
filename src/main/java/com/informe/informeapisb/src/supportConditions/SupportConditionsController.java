@@ -1,7 +1,6 @@
 package com.informe.informeapisb.src.supportConditions;
 
 
-import com.informe.informeapisb.src.serviceList.model.GetServiceListRes;
 import com.informe.informeapisb.src.supportConditions.model.*;
 import com.informe.informeapisb.config.BaseException;
 import com.informe.informeapisb.config.BaseResponse;
@@ -9,13 +8,9 @@ import com.informe.informeapisb.utils.JwtService;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import static com.informe.informeapisb.config.BaseResponseStatus.*;
-import static com.informe.informeapisb.utils.ValidationRegex.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -109,8 +104,7 @@ public class SupportConditionsController {
     @ResponseBody
     @GetMapping("/recommend/{page}/{perPage}")
     public BaseResponse<List<GetRecommendSupportConditionsRes>> getRecommendSupportConditionsRes(@PathVariable("page")int page, @PathVariable("perPage")int perPage,
-                                                                                                 @RequestParam int age, @RequestParam int income_range, @RequestParam int gender, @RequestParam String area,
-                                                                                                 @RequestParam(value = "personalArray") int[] personalArray,
+                                                                                                 @RequestParam int age, @RequestParam int income_range, @RequestParam int gender, @RequestParam String area, @RequestParam(value = "personalArray") int[] personalArray,
                                                                                                  @RequestParam(value = "householdslArray") int[] householdslArray){
         try{
             List<GetRecommendSupportConditionsRes> getRecommendSupportConditionsRes = supportConditionsProvider.getRecommendSupportConditions(page, perPage, age, income_range, gender, area, personalArray, householdslArray);
@@ -122,12 +116,45 @@ public class SupportConditionsController {
     }
 
     @ResponseBody
-    @GetMapping("/recommend2/{page}/{perPage}")
-    public BaseResponse<List<GetRecommendSupportConditionsRes>> getRecommendSupportConditionsRes2(@PathVariable("page")int page, @PathVariable("perPage")int perPage,
-                                                                                                 @RequestParam int age, @RequestParam int income_range, @RequestParam int gender, @RequestParam String area){
+    @GetMapping("/recommend2/{userIdx}/{page}/{perPage}")
+    public BaseResponse<List<GetRecommendSupportConditionsRes>> getRecommendSupportConditionsRes2(@PathVariable("userIdx")String userIdx, @PathVariable("page")int page, @PathVariable("perPage")int perPage){
         try{
-            List<GetRecommendSupportConditionsRes> getRecommendSupportConditionsRes = supportConditionsProvider.getRecommendSupportConditions2(page, perPage, age, income_range, gender, area);
+            List<GetProfileData> getProfileData = supportConditionsProvider.getProfile(userIdx);
+            GetProfileData age_info= getProfileData.get(0);
+            log.info(String.valueOf(age_info));
+            int age=23;
+            int income_range=100;
+            int gender=0;
+
+
+
+            List<GetRecommendSupportConditionsRes> getRecommendSupportConditionsRes = supportConditionsProvider.getRecommendSupportConditions2(page, perPage, age, income_range, gender);
             return new BaseResponse<>(getRecommendSupportConditionsRes);
+        }catch (BaseException exception){
+            logger.error("Error", exception);
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
+
+    @ResponseBody
+    @GetMapping("/profile/{userIdx}")
+    public BaseResponse<List<GetProfileData>> getProfileData(@PathVariable("userIdx") String userIdx){
+        try{
+            List<GetProfileData> getProfileData = supportConditionsProvider.getProfile(userIdx);
+            return new BaseResponse<>(getProfileData);
+        }catch (BaseException exception){
+            logger.error("Error", exception);
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
+    @ResponseBody
+    @GetMapping("/profile2/{userIdx}")
+    public BaseResponse<List<GetProfileData>> getProfileRes(@PathVariable("userIdx") String userIdx){
+        try{
+            List<GetProfileData> getProfileData = supportConditionsProvider.getProfile(userIdx);
+            return new BaseResponse<>(getProfileData);
         }catch (BaseException exception){
             logger.error("Error", exception);
             return new BaseResponse<>((exception.getStatus()));

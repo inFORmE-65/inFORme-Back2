@@ -46,10 +46,19 @@ public class SupportConditionsProvider {
         }
     }
 
-    public List<GetRecommendSupportConditionsRes> getRecommendSupportConditions2(int page, int perPage, int age, int income_range, int gender, String area) throws BaseException{
+    public List<GetRecommendSupportConditionsRes> getRecommendSupportConditions2(int page, int perPage, int age, int income_range, int gender) throws BaseException{
         try{
-            List<GetRecommendSupportConditionsRes> getRecommendSupportConditionsRes = supportConditionsDao.getRecommendSupportConditions2(page, perPage, age, income_range, gender, area);
+            List<GetRecommendSupportConditionsRes> getRecommendSupportConditionsRes = supportConditionsDao.getRecommendSupportConditions2(page, perPage, age, income_range, gender);
             return getRecommendSupportConditionsRes;
+        }catch (Exception exception){
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    public List<GetProfileData> getProfile(String userIndex) throws BaseException{
+        try{
+            List<GetProfileData> getProfileRes = supportConditionsDao.getProfile(userIndex);
+            return getProfileRes;
         }catch (Exception exception){
             throw new BaseException(DATABASE_ERROR);
         }
@@ -67,8 +76,5 @@ public class SupportConditionsProvider {
     }
 
      */
-
-
-
 
 }
